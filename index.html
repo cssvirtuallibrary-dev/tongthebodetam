@@ -142,6 +142,27 @@
             font-size: 11px;
         }
 
+        /* Checkbox Control */
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        .checkbox-container input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: #ffd700;
+            cursor: pointer;
+        }
+        .checkbox-container span {
+            font-size: 11px;
+            color: #ddd;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
         /* Collapsible Subsections */
         details {
             background: rgba(20, 26, 36, 0.5);
@@ -341,6 +362,13 @@
                 <input type="range" id="rotation-speed" min="0" max="10" step="0.1" value="0">
             </div>
 
+            <div class="control-group">
+                <label class="checkbox-container">
+                    <input type="checkbox" id="include-group-a" checked>
+                    <span>Include Group A (Spiral)</span>
+                </label>
+            </div>
+
             <!-- Natively Collapsed Details Panels -->
             <details>
                 <summary>Character Render Mode</summary>
@@ -435,10 +463,10 @@
         ];
 
         // Mathematical helper function to evaluate any continuous point on the spiral path
-        // Advancing spirally in the clockwise direction (decreasing angle)
+        // Advancing spirally in the counterclockwise direction (increasing angle)
         function getSpiralPosition(t) {
-            // Theta starts at Front (-Math.PI / 2) and rotates clockwise (subtracting t * Math.PI / 2)
-            const theta = -Math.PI / 2 - t * Math.PI / 2;
+            // Theta starts at Front (-Math.PI / 2) and rotates counterclockwise (adding t * Math.PI / 2)
+            const theta = -Math.PI / 2 + t * Math.PI / 2;
             const r = 2.2 + t * 0.05; // Starting just outside the large bubble (radius 2.1)
             const y = -1.4 + t * 0.1; // Base of the Buddha statue rising up
             return new THREE.Vector3(r * Math.cos(theta), y, r * Math.sin(theta));
@@ -474,8 +502,8 @@
         scene.fog = new THREE.FogExp2(0x05070a, 0.03);
 
         const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
-        // Positioned camera at Upper Front Left Corner (-8, 8, 8)
-        camera.position.set(-8, 8, 8);
+        // Positioned camera at Upper Front Left Corner in -X, +Y, -Z quadrant (-8, 8, -8)
+        camera.position.set(-8, 8, -8);
 
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, powerPreference: "high-performance" });
         renderer.setSize(window.innerWidth, window.innerHeight);
@@ -577,7 +605,7 @@
         const outerBubble = new THREE.Mesh(outerBubbleGeo, clearBubbleGlass);
         scene.add(outerBubble);
 
-        // --- 6. Loading Buddha Model (Lowered by 2.2) ---
+        // --- 6. Loading Buddha Model (Brought up 2.2 units back to -0.5) ---
         const buddhaGroup = new THREE.Group();
         scene.add(buddhaGroup);
 
@@ -598,8 +626,8 @@
                     }
                 });
                 buddhaMesh.scale.set(1.4, 1.4, 1.4); 
-                // Lowered by 2.2 units (original -0.5 - 2.2 = -2.7)
-                buddhaMesh.position.set(0.0, -2.7, -0.18); 
+                // Raised back up by 2.2 units to match grid center
+                buddhaMesh.position.set(0.0, -0.5, -0.18); 
                 buddhaMesh.rotation.y = Math.PI / 2; 
                 buddhaGroup.add(buddhaMesh);
                 loadingOverlay.style.opacity = 0;
@@ -624,8 +652,8 @@
                 legs.rotation.x = Math.PI / 2;
                 legs.position.y = -0.25;
                 fallbackGroup.add(legs);
-                // Lowered by 2.2 units (original -0.5 - 2.2 = -2.7)
-                fallbackGroup.position.set(0.0, -2.7, -0.18);
+                // Raised back up by 2.2 units to match grid center
+                fallbackGroup.position.set(0.0, -0.5, -0.18);
                 fallbackGroup.rotation.y = Math.PI / 2; 
                 buddhaGroup.add(fallbackGroup);
                 loadingOverlay.style.opacity = 0;
@@ -668,9 +696,32 @@
             const z = data.excelPos[1]; // Y in Excel is Z in Three.js
             const pos = new THREE.Vector3(x, y, z);
 
-            // ClearBubbleGlass reduced in size by 25% (0.19 * 0.75 = 0.14)
-            const sphereGeo = new THREE.SphereGeometry(0.14, 32, 32);
-            const sphere = new THREE.Mesh(sphereGeo, clearBubbleGlass.clone());
+            const isGroupB = data.id.startsWith('B');
+            
+            // Group B spheres are 50% smaller (0.14 * 0.50 = 0.07)
+            const radius = isGroupB ? 0.07 : 0.14;
+            const sphereGeo = new THREE.SphereGeometry(radius, 32, 32);
+            
+            // Group B starts as Green Transparent
+            let mat;
+            if (isGroupB) {
+                mat = new THREE.MeshPhysicalMaterial({
+                    color: 0x00ff66,
+                    roughness: 0.1,
+                    metalness: 0.1,
+                    transmission: 0.9,
+                    ior: 1.52,
+                    thickness: 0.2,
+                    transparent: true,
+                    opacity: 1.0,
+                    side: THREE.DoubleSide,
+                    depthWrite: false
+                });
+            } else {
+                mat = clearBubbleGlass.clone();
+            }
+
+            const sphere = new THREE.Mesh(sphereGeo, mat);
             sphere.position.copy(pos);
             sphere.visible = false; // Initially invisible
             sphere.userData = { 
@@ -682,8 +733,8 @@
             clickableSpheres.push(sphere);
             data.sphereMesh = sphere;
 
-            // Plane size reduced proportionally to fit the bubble (0.35 * 0.75 = 0.26)
-            const planeSize = 0.26; 
+            // Plane size reduced proportionally (0.26 * 0.50 = 0.13)
+            const planeSize = isGroupB ? 0.13 : 0.26; 
             const planeGeo = new THREE.PlaneGeometry(planeSize, planeSize);
             let characterTex = createFallbackGlyphTexture(data.char, data.phonetic);
 
@@ -799,9 +850,9 @@
             if (wallGeometry.index) wallGeometry.index.needsUpdate = true;
         }
 
-        // --- 9. Coordinate Axis Lines & Labels ---
+        // --- 9. Coordinate Axis Lines & Labels (Matching grid center at 0,0,0) ---
         const gridHelper = new THREE.GridHelper(10, 30, 0x00aaff, 0x141a24); 
-        gridHelper.position.y = -1.5;
+        gridHelper.position.y = 0; // Exactly at origin horizontal plane
         scene.add(gridHelper);
 
         function createAxisLine(start, end, color) {
@@ -857,36 +908,42 @@
 
         function generateAnimationSequence() {
             const filterVal = document.getElementById('filter-select').value;
+            const includeGroupA = document.getElementById('include-group-a').checked;
             activeSequence = [];
 
             // 1. Isolate the 40 LA spiral nodes (A1–A40)
             const laNodes = baseSphereData.filter(n => n.id.startsWith('A'));
 
-            // 2. Isolate and sort the B group nodes matching the filter
+            // 2. Isolate and sort the other nodes matching the filter
             const otherNodes = baseSphereData.filter(n => {
                 if (n.id.startsWith('A')) return false;
                 const filters = n.filter.split(',').map(f => f.trim());
                 return filters.includes(filterVal);
             });
-            // Sort B group nodes numerically (B1, B2, ..., B34)
+            // Sort remaining nodes numerically (B1, B2, ..., B34)
             otherNodes.sort((a, b) => {
                 const numA = parseInt(a.id.substring(1));
                 const numB = parseInt(b.id.substring(1));
                 return numA - numB;
             });
 
-            // 3. Assemble activeSequence with interleaved layers
-            // 10 loops total: each loop triggers 4 LA nodes, then runs through EVERY matching B group node
-            for (let k = 0; k < 10; k++) {
-                // Add 4 LA nodes
-                for (let i = 0; i < 4; i++) {
-                    const laNode = laNodes[k * 4 + i];
-                    if (laNode) activeSequence.push(laNode);
+            // 3. Assemble activeSequence with interleaved layers if Group A is included
+            if (includeGroupA) {
+                // 10 loops total: each loop triggers 4 LA nodes, then runs through EVERY matching B group node
+                for (let k = 0; k < 10; k++) {
+                    // Add 4 LA nodes
+                    for (let i = 0; i < 4; i++) {
+                        const laNode = laNodes[k * 4 + i];
+                        if (laNode) activeSequence.push(laNode);
+                    }
+                    // Add all filtered B group nodes
+                    otherNodes.forEach(node => {
+                        activeSequence.push(node);
+                    });
                 }
-                // Add all B group nodes matching the active filter
-                otherNodes.forEach(node => {
-                    activeSequence.push(node);
-                });
+            } else {
+                // Run through base group nodes directly
+                activeSequence = [...otherNodes];
             }
         }
 
@@ -900,6 +957,15 @@
                 sphere.userData.glow = 0.0;
                 sphere.userData.hasBeenCalled = false;
                 sphere.scale.setScalar(1.0);
+                
+                // Reset Group B spheres back to green transparent
+                if (sphere.userData.id.startsWith('B')) {
+                    sphere.material.color.setHex(0x00ff66);
+                    sphere.material.emissive.setHex(0x000000);
+                } else {
+                    sphere.material.color.setHex(0xffffff);
+                    sphere.material.emissive.setHex(0x000000);
+                }
             });
 
             baseSphereData.forEach((data) => {
@@ -965,7 +1031,8 @@
 
         function highlightSphere(sphere) {
             if (activeOutline) spheresGroup.remove(activeOutline);
-            const outlineGeo = new THREE.SphereGeometry(0.16, 16, 16);
+            const outlineRadius = sphere.userData.id.startsWith('B') ? 0.08 : 0.16;
+            const outlineGeo = new THREE.SphereGeometry(outlineRadius, 16, 16);
             const outlineMat = new THREE.MeshBasicMaterial({
                 color: 0x00d2ff, 
                 wireframe: true,
@@ -1031,6 +1098,11 @@
                 isRunning = true;
                 wallMesh.visible = true;
                 startBtn.innerText = "Reset / Restart";
+                
+                // Collapse control panel automatically on start
+                uiContainer.classList.add('collapsed');
+                uiToggleBtn.innerText = '▼';
+
                 triggerNextStep();
             }
         });
@@ -1060,7 +1132,6 @@
                 if (!sphere.visible) return;
 
                 const nodeData = sphere.userData;
-                // Check if this node is the one currently active in the sequence
                 const isLatest = activeSequence[currentSeqIndex] && activeSequence[currentSeqIndex].id === nodeData.id;
                 
                 // Active node gets a brilliant golden pulse; called nodes decay to a steady visible baseline
@@ -1076,11 +1147,22 @@
                     matchingBaseData.planeMesh.scale.setScalar(1.0 + (sphere.userData.glow * 0.15));
                 }
 
-                // Smoothly shift glass properties to mimic golden energy activation
-                sphere.material.color.lerpColors(new THREE.Color(0xffffff), new THREE.Color(0xffd700), sphere.userData.glow);
-                sphere.material.emissive.lerpColors(new THREE.Color(0x000000), new THREE.Color(0xffaa00), sphere.userData.glow);
-                sphere.material.emissiveIntensity = sphere.userData.glow * 2.5;
-                sphere.material.roughness = 0.05 + (sphere.userData.glow * 0.3); 
+                if (nodeData.id.startsWith('B')) {
+                    // Group B spheres transition to Red transparent when called, and fade to Green transparent when settled
+                    let targetColor = isLatest ? new THREE.Color(0xff3333) : new THREE.Color(0x00ff66);
+                    let targetEmissive = isLatest ? new THREE.Color(0xff0000) : new THREE.Color(0x00aa33);
+                    
+                    sphere.material.color.lerp(targetColor, 0.08);
+                    sphere.material.emissive.lerp(targetEmissive, 0.08);
+                    sphere.material.emissiveIntensity = sphere.userData.glow * 2.5;
+                    sphere.material.roughness = 0.05 + (sphere.userData.glow * 0.3);
+                } else {
+                    // Standard clear glass transition to Gold
+                    sphere.material.color.lerpColors(new THREE.Color(0xffffff), new THREE.Color(0xffd700), sphere.userData.glow);
+                    sphere.material.emissive.lerpColors(new THREE.Color(0x000000), new THREE.Color(0xffaa00), sphere.userData.glow);
+                    sphere.material.emissiveIntensity = sphere.userData.glow * 2.5;
+                    sphere.material.roughness = 0.05 + (sphere.userData.glow * 0.3); 
+                }
             });
         }
 
