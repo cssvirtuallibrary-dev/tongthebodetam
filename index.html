@@ -365,7 +365,7 @@
             <div class="control-group">
                 <label class="checkbox-container">
                     <input type="checkbox" id="include-group-a" checked>
-                    <span>Include Group A (Spiral)</span>
+                    <span>Include Column of Light (Spiral)</span>
                 </label>
             </div>
 
@@ -421,11 +421,11 @@
         const baseSphereData = [
             // Group B: Thường Trụ Bất Biến
             { id: "B1", name: "Forehead", excelPos: [0.0, 0.0, 0.8], chakra: "Third Eye Chakra", image: "01_A_Gold.png", char: "𑖀", phonetic: "A", series: "Thường Trụ Bất Biến", dharma: "Cintamani Jewel", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Mo La, Mo La\nOm, Wa Dz La,\nWa Do La,\nHum Pan Ja" },
-            { id: "B2", name: "Đan Điền", excelPos: [0.0, 0.0, -0.3], chakra: "Sacral Chakra", image: "03_PA_Gold.png", char: "𑖢", phonetic: "Pa", series: "Thường Trụ Bất Biến", dharma: "Jewel Bowl", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Hu Lu, Hu Lu Syi Li,\nOm Jr Li Jr Li,\nWa Jr La,\nHum Pan Ja" },
+            { id: "B2", name: "Đan Điền", excelPos: [0.0, -0.2, 0.0], chakra: "Sacral Chakra", image: "03_PA_Gold.png", char: "𑖢", phonetic: "Pa", series: "Thường Trụ Bất Biến", dharma: "Jewel Bowl", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Hu Lu, Hu Lu Syi Li,\nOm Jr Li Jr Li,\nWa Jr La,\nHum Pan Ja" },
             { id: "B3", name: "Front Center", excelPos: [0.0, -0.1, 0.0], chakra: "Solar Plexus Chakra", image: "02_RA_Gold.png", char: "𑖨", phonetic: "Ra", series: "Thường Trụ Bất Biến", dharma: "Lariat Rope", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Mo La, No La\nOm, Jr Li Lai La,\nMo Nai La,\nHum Pan Ja" },
             { id: "B4", name: "Behind Center", excelPos: [0.0, 0.1, 0.0], chakra: "Behind Solar Plexus Chakra", image: "36_NNA_Gold.png", char: "𑖜", phonetic: "Nna", series: "Thường Trụ Bất Biến", dharma: "Jewel Beads", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Fo La She Li\nNamo La Da Nang\nDa La Ye Ye\nOm, E No Pe Di\nWei Re Yi Syi Di Syi, To Li Ti\nSo Po He" },
-            { id: "B5", name: "Above Right Knee", excelPos: [1.0, -1.0, -0.5], chakra: "N/A", image: "10_SSA_Gold.png", char: "𑖬", phonetic: "Ssa", series: "Thường Trụ Bất Biến", dharma: "Jewel Bow", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Fa Sha Fa Shen\nOm, E Dzo Wei Li\nSo Po He." },
-            { id: "B6", name: "Above Left Knee", excelPos: [-1.0, -1.0, -0.5], chakra: "N/A", image: "11_VA_Gold.png", char: "𑖪", phonetic: "Va", series: "Thường Trụ Bất Biến", dharma: "Jewel Arrow", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Pe Ye Mo No\nOm, Jye No La,\nSo Po He." },
+            { id: "B5", name: "Above Right Knee", excelPos: [0.5, -0.5, 0.0], chakra: "N/A", image: "10_SSA_Gold.png", char: "𑖬", phonetic: "Ssa", series: "Thường Trụ Bất Biến", dharma: "Jewel Bow", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Fa Sha Fa Shen\nOm, E Dzo Wei Li\nSo Po He." },
+            { id: "B6", name: "Above Left Knee", excelPos: [-0.5, -0.5, 0.0], chakra: "N/A", image: "11_VA_Gold.png", char: "𑖪", phonetic: "Va", series: "Thường Trụ Bất Biến", dharma: "Jewel Arrow", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Pe Ye Mo No\nOm, Jye No La,\nSo Po He." },
 
             // Remaining Groups (Mapped correctly based on new Excel order)
             { id: "B7", name: "Bottom Outer", excelPos: [0.0, 0.0, -2.0], chakra: "N/A", image: "09_DDA_Gold.png", char: "𑖚", phonetic: "Dda", series: "Liên Hoa Bồ Đề Tâm", dharma: "Moon Essence Mani", filter: "A3/3/3, A5/3/3, A5/5/5, Tổng Thể Bồ Đề Tâm", mantra: "Du Lu Du Lu\nOm, Su Syi Di Jya Li\nSo Po He" },
@@ -450,23 +450,23 @@
 
             // Group D: Lục Tý
             { id: "B26", name: "Joined Palm", excelPos: [0.0, -0.3, 0.2], chakra: "N/A", image: "34_GHA_Gold.png", char: "𑖑", phonetic: "Gha", series: "Lục Tý", dharma: "Joined Palm", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Syi Li, Syi Li\nOm, Bo Na Man\nRe Ling He Li.\nOm, Wei Sala Wei Sala\nHum Pan Ja" },
-            { id: "B27", name: "Lower Left Palm", excelPos: [-0.5, -0.5, -0.3], chakra: "N/A", image: "07_DA_Gold.png", char: "𑖟", phonetic: "Da", series: "Lục Tý", dharma: "Fearless Palm", filter: "Tổng Thể Bồ Đề Tâm", mantra: "No La Jin Jr Pan Jye La Ye\nOm, Dz La Nan Ye\nHum Pan Ja" },
-            { id: "B28", name: "Lower Right Palm", excelPos: [0.5, -0.5, -0.3], chakra: "N/A", image: "16_SA_Gold.png", char: "𑖭", phonetic: "Sa", series: "Lục Tý", dharma: "Sweet Dews", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Su Lu Su Lu\nOm, Su Lu Su Lu,\nBo La Su Lu, Bo La Su Lu,\nSu Lu Su Lu Ye,\nSo Po He" },
-            { id: "B29", name: "Upper Open Left Palm", excelPos: [-1.0, -0.5, 0.5], chakra: "N/A", image: "08_BA_Gold.png", char: "𑖤", phonetic: "Ba", series: "Lục Tý", dharma: "Sun Essence Mani", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Shr Fo La Ye\nOm, Du Bi Jya Ye Du Bi,\nBo La Wa Li Ning\nSo Po He." },
-            { id: "B30", name: "Upper Open Right Palm", excelPos: [1.0, -0.5, 0.5], chakra: "N/A", image: "09_DDA_Gold.png", char: "𑖚", phonetic: "Dda", series: "Lục Tý", dharma: "Moon Essence Mani", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Du Lu Du Lu\nOm, Su Syi Di Jya Li\nSo Po He" },
+            { id: "B27", name: "Lower Left Palm", excelPos: [-0.3, -0.3, -0.3], chakra: "N/A", image: "07_DA_Gold.png", char: "𑖟", phonetic: "Da", series: "Lục Tý", dharma: "Fearless Palm", filter: "Tổng Thể Bồ Đề Tâm", mantra: "No La Jin Jr Pan Jye La Ye\nOm, Dz La Nan Ye\nHum Pan Ja" },
+            { id: "B28", name: "Lower Right Palm", excelPos: [0.3, -0.3, -0.3], chakra: "N/A", image: "16_SA_Gold.png", char: "𑖭", phonetic: "Sa", series: "Lục Tý", dharma: "Sweet Dews", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Su Lu Su Lu\nOm, Su Lu Su Lu,\nBo La Su Lu, Bo La Su Lu,\nSu Lu Su Lu Ye,\nSo Po He" },
+            { id: "B29", name: "Upper Open Left Palm", excelPos: [-0.5, -0.5, 0.3], chakra: "N/A", image: "08_BA_Gold.png", char: "𑖤", phonetic: "Ba", series: "Lục Tý", dharma: "Sun Essence Mani", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Shr Fo La Ye\nOm, Du Bi Jya Ye Du Bi,\nBo La Wa Li Ning\nSo Po He." },
+            { id: "B30", name: "Upper Open Right Palm", excelPos: [0.5, -0.5, 0.3], chakra: "N/A", image: "09_DDA_Gold.png", char: "𑖚", phonetic: "Dda", series: "Lục Tý", dharma: "Moon Essence Mani", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Du Lu Du Lu\nOm, Su Syi Di Jya Li\nSo Po He" },
             { id: "B31", name: "Meditation Mutra", excelPos: [0.0, -0.2, -0.7], chakra: "N/A", image: "42_DDHA_Gold.png", char: "𑖛", phonetic: "Ddha", series: "Lục Tý", dharma: "Thousand Hands & Eyes", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Mo Pe Li Sheng Jye La Ye\nOm, Da Ni Ye To,\nWa Lu Jr Di,\nShr Wa La Ye,\nSa Pe Du Shai,\nJa Ming He Mi Ye,\nSo Po He" },
 
             // Group E: Ending
-            { id: "B32", name: "Left Knee", excelPos: [-1.0, -1.0, -0.8], chakra: "N/A", image: "24_KHA_Gold.png", char: "𑖏", phonetic: "Kha", series: "Ending", dharma: "Jewel Staff", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Mi Di Li Ye\nOm, No Li Ti No Li Ti\nNo Li Ja Bo Di\nNo Li Di No\nYe Bo Ning\nHum Pan Ja" },
-            { id: "B33", name: "Right Knee", excelPos: [1.0, -1.0, -0.8], chakra: "N/A", image: "01_A_Gold.png", char: "𑖀", phonetic: "A", series: "Ending", dharma: "Cintamani Jewel", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Mo La, Mo La\nOm, Wa Dz La,\nWa Do La,\nHum Pan Ja" },
-            { id: "B34", name: "Center of Mandala", excelPos: [0.0, 0.0, -1.0], chakra: "Root Chakra", image: "37_PHA_Gold.png", char: "𑖣", phonetic: "Pha", series: "Ending", dharma: "Non-retreating Dharma Wheel", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Pu Ti Ye (5x)\nOm, She No Mi Dzo\nSo Po He" }
+            { id: "B32", name: "Left Knee", excelPos: [-0.5, -0.5, -0.3], chakra: "N/A", image: "24_KHA_Gold.png", char: "𑖏", phonetic: "Kha", series: "Ending", dharma: "Jewel Staff", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Mi Di Li Ye\nOm, No Li Ti No Li Ti\nNo Li Ja Bo Di\nNo Li Di No\nYe Bo Ning\nHum Pan Ja" },
+            { id: "B33", name: "Right Knee", excelPos: [0.5, -0.5, -0.3], chakra: "N/A", image: "01_A_Gold.png", char: "𑖀", phonetic: "A", series: "Ending", dharma: "Cintamani Jewel", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Mo La, Mo La\nOm, Wa Dz La,\nWa Do La,\nHum Pan Ja" },
+            { id: "B34", name: "Center of Mandala", excelPos: [0.0, 0.0, -0.5], chakra: "Root Chakra", image: "37_PHA_Gold.png", char: "𑖣", phonetic: "Pha", series: "Ending", dharma: "Non-retreating Dharma Wheel", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Pu Ti Ye (5x)\nOm, She No Mi Dzo\nSo Po He" }
         ];
 
         // Mathematical helper function to evaluate any continuous point on the spiral path
-        // Advancing spirally in the counterclockwise direction (increasing angle)
+        // Advancing spirally in the clockwise direction (decreasing angle)
         function getSpiralPosition(t) {
-            // Theta starts at Front (-Math.PI / 2) and rotates counterclockwise (adding t * Math.PI / 2)
-            const theta = -Math.PI / 2 + t * Math.PI / 2;
+            // Theta starts at Front (-Math.PI / 2) and rotates clockwise (subtracting t * Math.PI / 2)
+            const theta = -Math.PI / 2 - t * Math.PI / 2;
             const r = 2.2 + t * 0.05; // Starting just outside the large bubble (radius 2.1)
             const y = -1.4 + t * 0.1; // Base of the Buddha statue rising up
             return new THREE.Vector3(r * Math.cos(theta), y, r * Math.sin(theta));
@@ -502,8 +502,8 @@
         scene.fog = new THREE.FogExp2(0x05070a, 0.03);
 
         const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
-        // Positioned camera at Upper Front Left Corner in -X, +Y, -Z quadrant (-8, 8, -8)
-        camera.position.set(-8, 8, -8);
+        // Positioned camera at default view angle (5, 5, -5) in the +X, +Y, -Z quadrant
+        camera.position.set(5, 5, -5);
 
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, powerPreference: "high-performance" });
         renderer.setSize(window.innerWidth, window.innerHeight);
@@ -626,7 +626,6 @@
                     }
                 });
                 buddhaMesh.scale.set(1.4, 1.4, 1.4); 
-                // Raised back up by 2.2 units to match grid center
                 buddhaMesh.position.set(0.0, -0.5, -0.18); 
                 buddhaMesh.rotation.y = Math.PI / 2; 
                 buddhaGroup.add(buddhaMesh);
@@ -652,7 +651,6 @@
                 legs.rotation.x = Math.PI / 2;
                 legs.position.y = -0.25;
                 fallbackGroup.add(legs);
-                // Raised back up by 2.2 units to match grid center
                 fallbackGroup.position.set(0.0, -0.5, -0.18);
                 fallbackGroup.rotation.y = Math.PI / 2; 
                 buddhaGroup.add(fallbackGroup);
@@ -698,8 +696,8 @@
 
             const isGroupB = data.id.startsWith('B');
             
-            // Group B spheres are 50% smaller (0.14 * 0.50 = 0.07)
-            const radius = isGroupB ? 0.07 : 0.14;
+            // Group B spheres size increased to 0.10 (radius)
+            const radius = isGroupB ? 0.10 : 0.14;
             const sphereGeo = new THREE.SphereGeometry(radius, 32, 32);
             
             // Group B starts as Green Transparent
@@ -733,8 +731,8 @@
             clickableSpheres.push(sphere);
             data.sphereMesh = sphere;
 
-            // Plane size reduced proportionally (0.26 * 0.50 = 0.13)
-            const planeSize = isGroupB ? 0.13 : 0.26; 
+            // Plane size scaled proportionally (0.10 * 1.8 = 0.18)
+            const planeSize = isGroupB ? 0.18 : 0.26; 
             const planeGeo = new THREE.PlaneGeometry(planeSize, planeSize);
             let characterTex = createFallbackGlyphTexture(data.char, data.phonetic);
 
@@ -850,23 +848,58 @@
             if (wallGeometry.index) wallGeometry.index.needsUpdate = true;
         }
 
-        // --- 9. Coordinate Axis Lines & Labels (Matching grid center at 0,0,0) ---
+        // --- 9. Base Grid System (Matching grid center at 0,0,0) ---
         const gridHelper = new THREE.GridHelper(10, 30, 0x00aaff, 0x141a24); 
         gridHelper.position.y = 0; // Exactly at origin horizontal plane
         scene.add(gridHelper);
 
-        function createAxisLine(start, end, color) {
-            const points = [start, end];
-            const geometry = new THREE.BufferGeometry().setFromPoints(points);
-            const material = new THREE.LineBasicMaterial({ color: color, transparent: true, opacity: 0.35 });
-            const line = new THREE.Line(geometry, material);
-            scene.add(line);
+        // --- 9b. Add 6 Laser Beams along the Axial Directions ---
+        function createAxialLaserBeam(direction) {
+            const beamGroup = new THREE.Group();
+
+            const totalLength = 2.3;             
+            const coneHeight = 0.15;             
+            const cylinderLength = totalLength - coneHeight; 
+            const cylinderRadius = 0.019;        
+            const coneRadius = cylinderRadius * 2.2; 
+
+            const mat = new THREE.MeshBasicMaterial({
+                color: 0x00d2ff,
+                transparent: true,
+                opacity: 0.8,
+                blending: THREE.AdditiveBlending,
+                side: THREE.DoubleSide
+            });
+
+            const cylGeom = new THREE.CylinderGeometry(cylinderRadius, cylinderRadius, cylinderLength, 16);
+            const shaft = new THREE.Mesh(cylGeom, mat);
+            shaft.position.y = cylinderLength / 2;
+            beamGroup.add(shaft);
+
+            const coneGeom = new THREE.ConeGeometry(coneRadius, coneHeight, 16);
+            const head = new THREE.Mesh(coneGeom, mat);
+            head.position.y = cylinderLength + (coneHeight / 2);
+            beamGroup.add(head);
+
+            const up = new THREE.Vector3(0, 1, 0);
+            beamGroup.quaternion.setFromUnitVectors(up, direction);
+
+            return beamGroup;
         }
-        
-        // Draw Red, Green, Blue Coordinate Lines
-        createAxisLine(new THREE.Vector3(-3, 0, 0), new THREE.Vector3(3, 0, 0), 0xff4444); // X (Red)
-        createAxisLine(new THREE.Vector3(0, -3, 0), new THREE.Vector3(0, 3, 0), 0x44ff44); // Y (Green)
-        createAxisLine(new THREE.Vector3(0, 0, -3), new THREE.Vector3(0, 0, 3), 0x4444ff); // Z (Blue)
+
+        const axialDirections = [
+            new THREE.Vector3(1, 0, 0),   // +X (Right)
+            new THREE.Vector3(-1, 0, 0),  // -X (Left)
+            new THREE.Vector3(0, 1, 0),   // +Y (Up)
+            new THREE.Vector3(0, -1, 0),  // -Y (Down)
+            new THREE.Vector3(0, 0, 1),   // +Z (Back)
+            new THREE.Vector3(0, 0, -1)   // -Z (Front)
+        ];
+
+        axialDirections.forEach((dir) => {
+            const laser = createAxialLaserBeam(dir);
+            spheresGroup.add(laser); 
+        });
 
         // Helper to generate text sprites for coordinate labels
         function createAxisLabel(text, x, y, z) {
@@ -998,8 +1031,20 @@
 
                 rebuildWallGeometry();
             } else {
-                isRunning = false;
-                document.getElementById('start-btn').innerText = "Restart Formation";
+                // If Column of Light (Group A) is not selected, run Group B in a continuous loop
+                const includeGroupA = document.getElementById('include-group-a').checked;
+                if (!includeGroupA) {
+                    currentSeqIndex = -1;
+                    clickableSpheres.forEach((sphere) => {
+                        if (sphere.userData.id.startsWith('B')) {
+                            sphere.userData.glow = 0.0;
+                        }
+                    });
+                    triggerNextStep();
+                } else {
+                    isRunning = false;
+                    document.getElementById('start-btn').innerText = "Restart Formation";
+                }
             }
         }
 
@@ -1031,7 +1076,7 @@
 
         function highlightSphere(sphere) {
             if (activeOutline) spheresGroup.remove(activeOutline);
-            const outlineRadius = sphere.userData.id.startsWith('B') ? 0.08 : 0.16;
+            const outlineRadius = sphere.userData.id.startsWith('B') ? 0.12 : 0.16;
             const outlineGeo = new THREE.SphereGeometry(outlineRadius, 16, 16);
             const outlineMat = new THREE.MeshBasicMaterial({
                 color: 0x00d2ff, 
