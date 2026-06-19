@@ -392,7 +392,7 @@
         // --- 1. Coordinate, Asset & Mantra Data Mapping ---
         const baseSphereData = [
             // Group B: Thường Trụ Bất Biến
-            { id: "B1", name: "Above Top Inner", excelPos: [0.0, 0.0, 1.2], chakra: "N/A", image: "01_A_Gold.png", char: "𑖀", phonetic: "A", series: "Thường Trụ Bất Biến", dharma: "Cintamani Jewel", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Mo La, Mo La\nOm, Wa Dz La,\nWa Do La,\nHum Pan Ja" },
+            { id: "B1", name: "Forehead", excelPos: [0.0, 0.0, 0.8], chakra: "Third Eye Chakra", image: "01_A_Gold.png", char: "𑖀", phonetic: "A", series: "Thường Trụ Bất Biến", dharma: "Cintamani Jewel", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Mo La, Mo La\nOm, Wa Dz La,\nWa Do La,\nHum Pan Ja" },
             { id: "B2", name: "Đan Điền", excelPos: [0.0, 0.0, -0.3], chakra: "Sacral Chakra", image: "03_PA_Gold.png", char: "𑖢", phonetic: "Pa", series: "Thường Trụ Bất Biến", dharma: "Jewel Bowl", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Hu Lu, Hu Lu Syi Li,\nOm Jr Li Jr Li,\nWa Jr La,\nHum Pan Ja" },
             { id: "B3", name: "Front Center", excelPos: [0.0, -0.1, 0.0], chakra: "Solar Plexus Chakra", image: "02_RA_Gold.png", char: "𑖨", phonetic: "Ra", series: "Thường Trụ Bất Biến", dharma: "Lariat Rope", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Mo La, No La\nOm, Jr Li Lai La,\nMo Nai La,\nHum Pan Ja" },
             { id: "B4", name: "Behind Center", excelPos: [0.0, 0.1, 0.0], chakra: "Behind Solar Plexus Chakra", image: "36_NNA_Gold.png", char: "𑖜", phonetic: "Nna", series: "Thường Trụ Bất Biến", dharma: "Jewel Beads", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Fo La She Li\nNamo La Da Nang\nDa La Ye Ye\nOm, E No Pe Di\nWei Re Yi Syi Di Syi, To Li Ti\nSo Po He" },
@@ -435,10 +435,10 @@
         ];
 
         // Mathematical helper function to evaluate any continuous point on the spiral path
-        // Advancing spirally in the counterclockwise direction (increasing angle)
+        // Advancing spirally in the clockwise direction (decreasing angle)
         function getSpiralPosition(t) {
-            // Theta starts at Front (-Math.PI / 2) and rotates counterclockwise (adding t * Math.PI / 2)
-            const theta = -Math.PI / 2 + t * Math.PI / 2;
+            // Theta starts at Front (-Math.PI / 2) and rotates clockwise (subtracting t * Math.PI / 2)
+            const theta = -Math.PI / 2 - t * Math.PI / 2;
             const r = 2.2 + t * 0.05; // Starting just outside the large bubble (radius 2.1)
             const y = -1.4 + t * 0.1; // Base of the Buddha statue rising up
             return new THREE.Vector3(r * Math.cos(theta), y, r * Math.sin(theta));
@@ -577,7 +577,7 @@
         const outerBubble = new THREE.Mesh(outerBubbleGeo, clearBubbleGlass);
         scene.add(outerBubble);
 
-        // --- 6. Loading Buddha Model ---
+        // --- 6. Loading Buddha Model (Lowered by 2.2) ---
         const buddhaGroup = new THREE.Group();
         scene.add(buddhaGroup);
 
@@ -598,7 +598,8 @@
                     }
                 });
                 buddhaMesh.scale.set(1.4, 1.4, 1.4); 
-                buddhaMesh.position.set(0.0, -0.5, -0.18); 
+                // Lowered by 2.2 units (original -0.5 - 2.2 = -2.7)
+                buddhaMesh.position.set(0.0, -2.7, -0.18); 
                 buddhaMesh.rotation.y = Math.PI / 2; 
                 buddhaGroup.add(buddhaMesh);
                 loadingOverlay.style.opacity = 0;
@@ -623,7 +624,8 @@
                 legs.rotation.x = Math.PI / 2;
                 legs.position.y = -0.25;
                 fallbackGroup.add(legs);
-                fallbackGroup.position.set(0.0, -0.5, -0.18);
+                // Lowered by 2.2 units (original -0.5 - 2.2 = -2.7)
+                fallbackGroup.position.set(0.0, -2.7, -0.18);
                 fallbackGroup.rotation.y = Math.PI / 2; 
                 buddhaGroup.add(fallbackGroup);
                 loadingOverlay.style.opacity = 0;
@@ -797,12 +799,56 @@
             if (wallGeometry.index) wallGeometry.index.needsUpdate = true;
         }
 
-        // --- 9. Base Grid System ---
+        // --- 9. Coordinate Axis Lines & Labels ---
         const gridHelper = new THREE.GridHelper(10, 30, 0x00aaff, 0x141a24); 
         gridHelper.position.y = -1.5;
         scene.add(gridHelper);
 
-        // --- 10. Dynamic Filter & Multi-Loop Sequencer ---
+        function createAxisLine(start, end, color) {
+            const points = [start, end];
+            const geometry = new THREE.BufferGeometry().setFromPoints(points);
+            const material = new THREE.LineBasicMaterial({ color: color, transparent: true, opacity: 0.35 });
+            const line = new THREE.Line(geometry, material);
+            scene.add(line);
+        }
+        
+        // Draw Red, Green, Blue Coordinate Lines
+        createAxisLine(new THREE.Vector3(-3, 0, 0), new THREE.Vector3(3, 0, 0), 0xff4444); // X (Red)
+        createAxisLine(new THREE.Vector3(0, -3, 0), new THREE.Vector3(0, 3, 0), 0x44ff44); // Y (Green)
+        createAxisLine(new THREE.Vector3(0, 0, -3), new THREE.Vector3(0, 0, 3), 0x4444ff); // Z (Blue)
+
+        // Helper to generate text sprites for coordinate labels
+        function createAxisLabel(text, x, y, z) {
+            const canvas = document.createElement('canvas');
+            canvas.width = 128;
+            canvas.height = 128;
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, 128, 128);
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillStyle = '#ffd700';
+            ctx.font = 'bold 36px sans-serif';
+            ctx.shadowColor = '#ffaa00';
+            ctx.shadowBlur = 10;
+            ctx.fillText(text, 64, 64);
+
+            const texture = new THREE.CanvasTexture(canvas);
+            const spriteMaterial = new THREE.SpriteMaterial({ map: texture, transparent: true });
+            const sprite = new THREE.Sprite(spriteMaterial);
+            sprite.position.set(x, y, z);
+            sprite.scale.set(0.6, 0.6, 1.0);
+            scene.add(sprite);
+        }
+
+        // Place coordinate labels
+        createAxisLabel("+X", 3.2, 0, 0);
+        createAxisLabel("-X", -3.2, 0, 0);
+        createAxisLabel("+Y", 0, 3.2, 0);
+        createAxisLabel("-Y", 0, -3.2, 0);
+        createAxisLabel("+Z", 0, 0, 3.2);
+        createAxisLabel("-Z", 0, 0, -3.2);
+
+        // --- 10. Dynamic Filter & Interleaved Loop Sequencer ---
         let activeSequence = [];
         let currentSeqIndex = -1;
         let seqTimer = 0;
@@ -813,31 +859,32 @@
             const filterVal = document.getElementById('filter-select').value;
             activeSequence = [];
 
-            // 1. Isolate the 40 LA spiral nodes
+            // 1. Isolate the 40 LA spiral nodes (A1–A40)
             const laNodes = baseSphereData.filter(n => n.id.startsWith('A'));
 
-            // 2. Isolate other nodes matching the filter
+            // 2. Isolate and sort the B group nodes matching the filter
             const otherNodes = baseSphereData.filter(n => {
                 if (n.id.startsWith('A')) return false;
                 const filters = n.filter.split(',').map(f => f.trim());
                 return filters.includes(filterVal);
             });
-
-            // 3. Chunk other nodes into 10 groups
-            const chunks = Array.from({ length: 10 }, () => []);
-            otherNodes.forEach((node, index) => {
-                chunks[index % 10].push(node);
+            // Sort B group nodes numerically (B1, B2, ..., B34)
+            otherNodes.sort((a, b) => {
+                const numA = parseInt(a.id.substring(1));
+                const numB = parseInt(b.id.substring(1));
+                return numA - numB;
             });
 
-            // 4. Interleave sequences across the 10 loops
+            // 3. Assemble activeSequence with interleaved layers
+            // 10 loops total: each loop triggers 4 LA nodes, then runs through EVERY matching B group node
             for (let k = 0; k < 10; k++) {
-                // Advance LA spiral by 4 nodes
+                // Add 4 LA nodes
                 for (let i = 0; i < 4; i++) {
                     const laNode = laNodes[k * 4 + i];
                     if (laNode) activeSequence.push(laNode);
                 }
-                // Append chunk of other characters
-                chunks[k].forEach(node => {
+                // Add all B group nodes matching the active filter
+                otherNodes.forEach(node => {
                     activeSequence.push(node);
                 });
             }
@@ -1013,10 +1060,11 @@
                 if (!sphere.visible) return;
 
                 const nodeData = sphere.userData;
+                // Check if this node is the one currently active in the sequence
                 const isLatest = activeSequence[currentSeqIndex] && activeSequence[currentSeqIndex].id === nodeData.id;
                 
-                // Keep a steady-state visible glow once called, pulse higher on call
-                const targetGlow = isLatest ? 1.8 : 0.6;
+                // Active node gets a brilliant golden pulse; called nodes decay to a steady visible baseline
+                const targetGlow = isLatest ? 2.0 : 0.6;
                 sphere.userData.glow = THREE.MathUtils.lerp(sphere.userData.glow, targetGlow, 0.08);
 
                 // Scale sphere and plane based on energy activation
@@ -1100,3 +1148,4 @@
     </script>
 </body>
 </html>
+
