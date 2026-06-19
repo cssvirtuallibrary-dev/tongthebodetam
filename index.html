@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Lotus Bodhicitta System</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #05070a;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            color: #fff;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        #canvas-container {
+            width: 100vw;
+            height: 100vh;
+            display: block;
+        }
+        
+        /* Floating Action Button */
+        #action-container {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            z-index: 30;
+            pointer-events: auto;
+        }
+        #start-btn {
+            background: #ffd700;
+            color: #05070a;
+            border: 1px solid rgba(255, 215, 0, 0.6);
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 12px;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.35);
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        #start-btn:hover {
+            background: #ffe240;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+            transform: translateY(-2px);
+        }
+        #start-btn:active {
+            transform: translateY(1px);
+        }
+
+        /* Collapsible UI Menu Control Panel - Open by Default */
+        #ui-container {
+            position: absolute;
+            top: 75px;
+            left: 15px;
+            background: rgba(10, 15, 25, 0.85);
+            padding: 14px 18px;
+            border-radius: 14px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            width: 290px;
+            pointer-events: auto;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            z-index: 10;
+        }
+        #ui-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+        h1 {
+            font-size: 14px;
+            margin: 0;
+            color: #ffd700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+        #ui-toggle-btn {
+            background: none;
+            border: none;
+            color: #ffd700;
+            font-size: 12px;
+            cursor: pointer;
+            padding: 4px;
+            transition: transform 0.3s ease;
+        }
+        #ui-content {
+            margin-top: 12px;
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+            max-height: 500px;
+            opacity: 1;
+        }
+        #ui-container.collapsed {
+            width: 220px;
+        }
+        #ui-container.collapsed #ui-toggle-btn {
+            transform: rotate(-90deg);
+        }
+        #ui-container.collapsed #ui-content {
+            max-height: 0;
+            opacity: 0;
+            margin-top: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        /* Control Group Styling */
+        p {
+            font-size: 11px;
+            color: #aaa;
+            margin: 0 0 12px 0;
+            line-height: 1.4;
+        }
+        .control-group {
+            margin-bottom: 10px;
+        }
+        label {
+            display: block;
+            font-size: 10px;
+            color: #888;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        select, input[type="range"] {
+            width: 100%;
+            background: #141a24;
+            border: 1px solid #253043;
+            color: #fff;
+            padding: 6px;
+            border-radius: 6px;
+            outline: none;
+            box-sizing: border-box;
+            font-size: 11px;
+        }
+
+        /* Collapsible Subsections */
+        details {
+            background: rgba(20, 26, 36, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 8px 10px;
+            margin-top: 8px;
+        }
+        summary {
+            font-size: 10px;
+            color: #ffd700;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            outline: none;
+            user-select: none;
+        }
+
+        /* Interactive Click Popup Card */
+        #popup-card {
+            position: absolute;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%) translateY(150px);
+            background: rgba(10, 15, 25, 0.92);
+            border: 1px solid rgba(255, 215, 0, 0.25);
+            border-radius: 16px;
+            padding: 16px 20px;
+            width: 85%;
+            max-width: 340px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 20;
+        }
+        #popup-card.active {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+        #popup-close {
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 4px;
+        }
+        #popup-title {
+            color: #ffd700;
+            margin: 0 0 10px 0;
+            font-size: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 6px;
+        }
+        .popup-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            font-size: 12px;
+        }
+        .popup-label {
+            color: #77849a;
+        }
+        .popup-val {
+            font-weight: 500;
+            color: #fff;
+        }
+
+        /* Sacred Mantra Styling Block */
+        .popup-mantra-section {
+            margin-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 10px;
+        }
+        .popup-mantra-val {
+            font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+            font-style: italic;
+            font-size: 12px;
+            line-height: 1.55;
+            color: #ffd700;
+            background: rgba(255, 215, 0, 0.04);
+            border-left: 2px solid #ffd700;
+            padding: 10px 14px;
+            border-radius: 0 8px 8px 0;
+            letter-spacing: 0.3px;
+            white-space: pre-line;
+        }
+
+        /* Loading Screen Overlay */
+        #loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #05070a;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            transition: opacity 0.6s ease;
+        }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 2px solid rgba(255, 215, 0, 0.1);
+            border-top-color: #ffd700;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        #loading-text {
+            margin-top: 16px;
+            color: #ffd700;
+            font-size: 12px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        /* Mobile Adaptations */
+        @media (max-width: 600px) {
+            #action-container {
+                width: calc(100% - 30px);
+                left: 10px;
+                top: 10px;
+            }
+            #start-btn {
+                width: 100%;
+                text-align: center;
+            }
+            #ui-container {
+                width: calc(100% - 30px);
+                max-width: none;
+                top: 75px;
+                left: 10px;
+            }
+            #ui-container.collapsed {
+                width: calc(100% - 30px);
+            }
+        }
+    </style>
+    <!-- Three.js components -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+</head>
+<body>
+
+    <!-- Loading Screen -->
+    <div id="loading-overlay">
+        <div class="spinner"></div>
+        <div id="loading-text">Calibrating Lotus Bodhicitta System...</div>
+    </div>
+
+    <!-- Play/Reset Trigger Button -->
+    <div id="action-container">
+        <button id="start-btn">Start Formation</button>
+    </div>
+
+    <div id="canvas-container"></div>
+
+    <!-- Collapsible UI Control Panel (Open by Default) -->
+    <div id="ui-container">
+        <div id="ui-header">
+            <h1>Lotus Bodhicitta</h1>
+            <button id="ui-toggle-btn">▲</button>
+        </div>
+        <div id="ui-content">
+            <p>Interactive meditation matrix displaying the Buddha's core and the Siddham axial spheres.</p>
+            
+            <div class="control-group">
+                <label>Active Filter Matrix</label>
+                <select id="filter-select">
+                    <option value="Tổng Thể Bồ Đề Tâm" selected>Tổng Thể Bồ Đề Tâm (All)</option>
+                    <option value="Cột Trụ Quang Minh">Cột Trụ Quang Minh</option>
+                    <option value="A3/3/3">A3/3/3</option>
+                    <option value="A5/3/3">A5/3/3</option>
+                    <option value="A5/5/5">A5/5/5</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label>Auto-Rotation Speed (RPM)</label>
+                <input type="range" id="rotation-speed" min="0" max="10" step="0.1" value="0">
+            </div>
+
+            <!-- Natively Collapsed Details Panels -->
+            <details>
+                <summary>Character Render Mode</summary>
+                <div style="margin-top: 8px;">
+                    <select id="billboard-mode">
+                        <option value="rotate" selected>Rotate in 3D Space</option>
+                        <option value="billboard">Face Camera (Billboard)</option>
+                    </select>
+                </div>
+            </details>
+
+            <details style="margin-top: 10px;">
+                <summary>Core Glow Intensity</summary>
+                <div style="margin-top: 8px;">
+                    <input type="range" id="glow-intensity" min="0" max="3" step="0.1" value="1.5">
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <!-- Popup Info Card for Click Interactivity -->
+    <div id="popup-card">
+        <button id="popup-close">&times;</button>
+        <div id="popup-title">Sphere Details</div>
+        <div class="popup-row">
+            <span class="popup-label">Location/ID:</span>
+            <span class="popup-val" id="popup-name">-</span>
+        </div>
+        <div class="popup-row">
+            <span class="popup-label">Chakra Center:</span>
+            <span class="popup-val" id="popup-chakra">-</span>
+        </div>
+        <div class="popup-row">
+            <span class="popup-label">Siddham Glyph:</span>
+            <span class="popup-val" id="popup-glyph">-</span>
+        </div>
+        <div class="popup-row">
+            <span class="popup-label">Coordinates:</span>
+            <span class="popup-val" id="popup-coords">-</span>
+        </div>
+        <!-- Mantra Section -->
+        <div class="popup-mantra-section">
+            <div class="popup-label" style="margin-bottom: 6px; text-transform: uppercase; font-size: 10px; letter-spacing: 0.5px;">Sacred Mantra:</div>
+            <div class="popup-mantra-val" id="popup-mantra">-</div>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. Coordinate, Asset & Mantra Data Mapping ---
+        const baseSphereData = [
+            // Group B: Thường Trụ Bất Biến
+            { id: "B1", name: "Above Top Inner", excelPos: [0.0, 0.0, 1.2], chakra: "N/A", image: "01_A_Gold.png", char: "𑖀", phonetic: "A", series: "Thường Trụ Bất Biến", dharma: "Cintamani Jewel", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Mo La, Mo La\nOm, Wa Dz La,\nWa Do La,\nHum Pan Ja" },
+            { id: "B2", name: "Đan Điền", excelPos: [0.0, 0.0, -0.3], chakra: "Sacral Chakra", image: "03_PA_Gold.png", char: "𑖢", phonetic: "Pa", series: "Thường Trụ Bất Biến", dharma: "Jewel Bowl", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Hu Lu, Hu Lu Syi Li,\nOm Jr Li Jr Li,\nWa Jr La,\nHum Pan Ja" },
+            { id: "B3", name: "Front Center", excelPos: [0.0, -0.1, 0.0], chakra: "Solar Plexus Chakra", image: "02_RA_Gold.png", char: "𑖨", phonetic: "Ra", series: "Thường Trụ Bất Biến", dharma: "Lariat Rope", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Mo La, No La\nOm, Jr Li Lai La,\nMo Nai La,\nHum Pan Ja" },
+            { id: "B4", name: "Behind Center", excelPos: [0.0, 0.1, 0.0], chakra: "Behind Solar Plexus Chakra", image: "36_NNA_Gold.png", char: "𑖜", phonetic: "Nna", series: "Thường Trụ Bất Biến", dharma: "Jewel Beads", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Fo La She Li\nNamo La Da Nang\nDa La Ye Ye\nOm, E No Pe Di\nWei Re Yi Syi Di Syi, To Li Ti\nSo Po He" },
+            { id: "B5", name: "Above Right Knee", excelPos: [1.0, -1.0, -0.5], chakra: "N/A", image: "10_SSA_Gold.png", char: "𑖬", phonetic: "Ssa", series: "Thường Trụ Bất Biến", dharma: "Jewel Bow", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Fa Sha Fa Shen\nOm, E Dzo Wei Li\nSo Po He." },
+            { id: "B6", name: "Above Left Knee", excelPos: [-1.0, -1.0, -0.5], chakra: "N/A", image: "11_VA_Gold.png", char: "𑖪", phonetic: "Va", series: "Thường Trụ Bất Biến", dharma: "Jewel Arrow", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Pe Ye Mo No\nOm, Jye No La,\nSo Po He." },
+
+            // Remaining Groups (Mapped correctly based on new Excel order)
+            { id: "B7", name: "Bottom Outer", excelPos: [0.0, 0.0, -2.0], chakra: "N/A", image: "09_DDA_Gold.png", char: "𑖚", phonetic: "Dda", series: "Liên Hoa Bồ Đề Tâm", dharma: "Moon Essence Mani", filter: "A3/3/3, A5/3/3, A5/5/5, Tổng Thể Bồ Đề Tâm", mantra: "Du Lu Du Lu\nOm, Su Syi Di Jya Li\nSo Po He" },
+            { id: "B8", name: "Bottom Inner", excelPos: [0.0, 0.0, -1.0], chakra: "Root Chakra", image: "13_YA_Gold.png", char: "𑖧", phonetic: "Ya", series: "Liên Hoa Bồ Đề Tâm", dharma: "Treasure Chest", filter: "A5/3/3, A5/5/5, Tổng Thể Bồ Đề Tâm", mantra: "Syi To Yu Yi, Shr Pan La Ye\nOm, Wa Dz La,\nBo Shr Jye Li,\nJye Nang Syin La Hum" },
+            { id: "B9", name: "Center", excelPos: [0.0, 0.0, 0.0], chakra: "Solar Plexus Chakra", image: "04_CA_Gold.png", char: "𑖓", phonetic: "Ca", series: "Liên Hoa Bồ Đề Tâm", dharma: "Jewel Sword", filter: "A3/3/3, A5/3/3, A5/5/5, Tổng Thể Bồ Đề Tâm", mantra: "Di Li Shai Ni No\nOm, Di Shr Di Re,\nDu Wei Ning Du Ti,\nSo To Ye,\nHum Pan Ja" },
+            { id: "B10", name: "Top Inner", excelPos: [0.0, 0.0, 1.0], chakra: "Crown Chakra", image: "16_SA_Gold.png", char: "𑖭", phonetic: "Sa", series: "Liên Hoa Bồ Đề Tâm", dharma: "Sweet Dews", filter: "A5/3/3, A5/5/5, Tổng Thể Bồ Đề Tâm", mantra: "Su Lu Su Lu\nOm, Su Lu Su Lu,\nBo La Su Lu, Bo La Su Lu,\nSu Lu Su Lu Ye,\nSo Po He" },
+            { id: "B11", name: "Top Outer", excelPos: [0.0, 0.0, 2.0], chakra: "N/A", image: "08_BA_Gold.png", char: "𑖤", phonetic: "Ba", series: "Liên Hoa Bồ Đề Tâm", dharma: "Sun Essence Mani", filter: "A3/3/3, A5/3/3, A5/5/5, Tổng Thể Bồ Đề Tâm", mantra: "Shr Fo La Ye\nOm, Du Bi Jya Ye Du Bi,\nBo La Wa Li Ning\nSo Po He." },
+            { id: "B12", name: "Back Outer", excelPos: [0.0, 2.0, 0.0], chakra: "N/A", image: "09_DDA_Gold.png", char: "𑖚", phonetic: "Dda", series: "Liên Hoa Bồ Đề Tâm", dharma: "Moon Essence Mani", filter: "A3/3/3, A5/3/3, A5/5/5, Tổng Thể Bồ Đề Tâm", mantra: "Du Lu Du Lu\nOm, Su Syi Di Jya Li\nSo Po He" },
+            { id: "B13", name: "Back Inner", excelPos: [0.0, 1.0, 0.0], chakra: "N/A", image: "25_KSSA_Gold.png", char: "𑖎𑖿𑖬", phonetic: "Kssa", series: "Liên Hoa Bồ Đề Tâm", dharma: "Red Lotus", filter: "A5/5/5, Tổng Thể Bồ Đề Tâm", mantra: "Bo To Mo Jye Syi To Ye\nOm, Shang Jye Li,\nSo Po He" },
+            { id: "B14", name: "Center", excelPos: [0.0, 0.0, 0.0], chakra: "Solar Plexus Chakra", image: "04_CA_Gold.png", char: "𑖓", phonetic: "Ca", series: "Liên Hoa Bồ Đề Tâm", dharma: "Jewel Sword", filter: "A3/3/3, A5/3/3, A5/5/5, Tổng Thể Bồ Đề Tâm", mantra: "Di Li Shai Ni No\nOm, Di Shr Di Re,\nDu Wei Ning Du Ti,\nSo To Ye,\nHum Pan Ja" },
+            { id: "B15", name: "Front Inner", excelPos: [0.0, -1.0, 0.0], chakra: "N/A", image: "18_GA_Gold.png", char: "𑖐", phonetic: "Ga", series: "Liên Hoa Bồ Đề Tâm", dharma: "White Lotus", filter: "A5/5/5, Tổng Thể Bồ Đề Tâm", mantra: "Jye meng\nOm, Wa Dz La,\nWei La Ye,\nSo Po He" },
+            { id: "B16", name: "Front Outer", excelPos: [0.0, -2.0, 0.0], chakra: "N/A", image: "08_BA_Gold.png", char: "𑖤", phonetic: "Ba", series: "Liên Hoa Bồ Đề Tâm", dharma: "Sun Essence Mani", filter: "A3/3/3, A5/3/3, A5/5/5, Tổng Thể Bồ Đề Tâm", mantra: "Shr Fo La Ye\nOm, Du Bi Jya Ye Du Bi,\nBo La Wa Li Ning\nSo Po He." },
+            { id: "B17", name: "Right Outer", excelPos: [2.0, 0.0, 0.0], chakra: "N/A", image: "09_DDA_Gold.png", char: "𑖚", phonetic: "Dda", series: "Liên Hoa Bồ Đề Tâm", dharma: "Moon Essence Mani", filter: "A3/3/3, A5/3/3, A5/5/5, Tổng Thể Bồ Đề Tâm", mantra: "Du Lu Du Lu\nOm, Su Syi Di Jya Li\nSo Po He" },
+            { id: "B18", name: "Right Inner", excelPos: [1.0, 0.0, 0.0], chakra: "N/A", image: "21_SVA_Gold.png", char: "𑖭𑖿𑖪", phonetic: "Sva", series: "Liên Hoa Bồ Đề Tâm", dharma: "Purple Lotus", filter: "A5/5/5, Tổng Thể Bồ Đề Tâm", mantra: "Fo La She Ye\nOm, Sa La Sa La,\nWa Dz La, Jya La,\nHum Pan Ja" },
+            { id: "B19", name: "Center", excelPos: [0.0, 0.0, 0.0], chakra: "Solar Plexus Chakra", image: "04_CA_Gold.png", char: "𑖓", phonetic: "Ca", series: "Liên Hoa Bồ Đề Tâm", dharma: "Jewel Sword", filter: "A3/3/3, A5/3/3, A5/5/5, Tổng Thể Bồ Đề Tâm", mantra: "Di Li Shai Ni No\nOm, Di Shr Di Re,\nDu Wei Ning Du Ti,\nSo To Ye,\nHum Pan Ja" },
+            { id: "B20", name: "Left Inner", excelPos: [-1.0, 0.0, 0.0], chakra: "N/A", image: "19_THA_Gold.png", char: "𑖞", phonetic: "Tha", series: "Liên Hoa Bồ Đề Tâm", dharma: "Blue Lotus", filter: "A5/5/5, Tổng Thể Bồ Đề Tâm", mantra: "Li To Yun\nOm, Jr Li Jr Li,\nWa Dz La,\nBu La Pan To,\nHum Pan Ja" },
+            { id: "B21", name: "Left Outer", excelPos: [-2.0, 0.0, 0.0], chakra: "N/A", image: "08_BA_Gold.png", char: "𑖤", phonetic: "Ba", series: "Liên Hoa Bồ Đề Tâm", dharma: "Sun Essence Mani", filter: "A3/3/3, A5/3/3, A5/5/5, Tổng Thể Bồ Đề Tâm", mantra: "Shr Fo La Ye\nOm, Du Bi Jya Ye Du Bi,\nBo La Wa Li Ning\nSo Po He." },
+            { id: "B22", name: "Tâm Luân", excelPos: [0.0, 0.0, 0.2], chakra: "Heart Chakra", image: "11_VA_Gold.png", char: "𑖪", phonetic: "Va", series: "Liên Hoa Bồ Đề Tâm", dharma: "Integral Lotus", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Om, Syin Dian Do\nMan Do La,\nBa To Ye\nSo Po He" },
+            { id: "B23", name: "Cổ (Front)", excelPos: [0.0, -0.2, 0.5], chakra: "Throat Chakra", image: "33_TSA_Gold.png", char: "𑖝𑖿𑖭", phonetic: "Tsa", series: "Liên Hoa Bồ Đề Tâm", dharma: "Jewel Axe", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Syi Lu Seng, E Mu Chywe Ye\nOm, Wei La Ye,\nWei La Ye\nSo Po He" },
+            { id: "B24", name: "Cổ (Center)", excelPos: [0.0, 0.0, 0.5], chakra: "Throat Chakra", image: "14_SSTTA_Gold.png", char: "𑖬𑖿𑖘", phonetic: "Sstta", series: "Liên Hoa Bồ Đề Tâm", dharma: "Pure Vase", filter: "Tổng Thể Bồ Đề Tâm", mantra: "No La Jin Jr\nOm, Jye Li San Man Yen,\nSo Po He" },
+            { id: "B25", name: "High Above Head", excelPos: [0.0, 0.0, 1.5], chakra: "N/A", image: "39_YSA_Gold.png", char: "𑖧𑖿𑖭", phonetic: "Ysa", series: "Liên Hoa Bồ Đề Tâm", dharma: "Transformation Buddha Atop The Crown", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Pu To Ye\nOm, Wa Dz Li Ni,\nWa Dz Lan Yi,\nSo Po He" },
+
+            // Group D: Lục Tý
+            { id: "B26", name: "Joined Palm", excelPos: [0.0, -0.3, 0.2], chakra: "N/A", image: "34_GHA_Gold.png", char: "𑖑", phonetic: "Gha", series: "Lục Tý", dharma: "Joined Palm", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Syi Li, Syi Li\nOm, Bo Na Man\nRe Ling He Li.\nOm, Wei Sala Wei Sala\nHum Pan Ja" },
+            { id: "B27", name: "Lower Left Palm", excelPos: [-0.5, -0.5, -0.3], chakra: "N/A", image: "07_DA_Gold.png", char: "𑖟", phonetic: "Da", series: "Lục Tý", dharma: "Fearless Palm", filter: "Tổng Thể Bồ Đề Tâm", mantra: "No La Jin Jr Pan Jye La Ye\nOm, Dz La Nan Ye\nHum Pan Ja" },
+            { id: "B28", name: "Lower Right Palm", excelPos: [0.5, -0.5, -0.3], chakra: "N/A", image: "16_SA_Gold.png", char: "𑖭", phonetic: "Sa", series: "Lục Tý", dharma: "Sweet Dews", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Su Lu Su Lu\nOm, Su Lu Su Lu,\nBo La Su Lu, Bo La Su Lu,\nSu Lu Su Lu Ye,\nSo Po He" },
+            { id: "B29", name: "Upper Open Left Palm", excelPos: [-1.0, -0.5, 0.5], chakra: "N/A", image: "08_BA_Gold.png", char: "𑖤", phonetic: "Ba", series: "Lục Tý", dharma: "Sun Essence Mani", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Shr Fo La Ye\nOm, Du Bi Jya Ye Du Bi,\nBo La Wa Li Ning\nSo Po He." },
+            { id: "B30", name: "Upper Open Right Palm", excelPos: [1.0, -0.5, 0.5], chakra: "N/A", image: "09_DDA_Gold.png", char: "𑖚", phonetic: "Dda", series: "Lục Tý", dharma: "Moon Essence Mani", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Du Lu Du Lu\nOm, Su Syi Di Jya Li\nSo Po He" },
+            { id: "B31", name: "Meditation Mutra", excelPos: [0.0, -0.2, -0.7], chakra: "N/A", image: "42_DDHA_Gold.png", char: "𑖛", phonetic: "Ddha", series: "Lục Tý", dharma: "Thousand Hands & Eyes", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Mo Pe Li Sheng Jye La Ye\nOm, Da Ni Ye To,\nWa Lu Jr Di,\nShr Wa La Ye,\nSa Pe Du Shai,\nJa Ming He Mi Ye,\nSo Po He" },
+
+            // Group E: Ending
+            { id: "B32", name: "Left Knee", excelPos: [-1.0, -1.0, -0.8], chakra: "N/A", image: "24_KHA_Gold.png", char: "𑖏", phonetic: "Kha", series: "Ending", dharma: "Jewel Staff", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Mi Di Li Ye\nOm, No Li Ti No Li Ti\nNo Li Ja Bo Di\nNo Li Di No\nYe Bo Ning\nHum Pan Ja" },
+            { id: "B33", name: "Right Knee", excelPos: [1.0, -1.0, -0.8], chakra: "N/A", image: "01_A_Gold.png", char: "𑖀", phonetic: "A", series: "Ending", dharma: "Cintamani Jewel", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Mo La, Mo La\nOm, Wa Dz La,\nWa Do La,\nHum Pan Ja" },
+            { id: "B34", name: "Center of Mandala", excelPos: [0.0, 0.0, -1.0], chakra: "Root Chakra", image: "37_PHA_Gold.png", char: "𑖣", phonetic: "Pha", series: "Ending", dharma: "Non-retreating Dharma Wheel", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Pu Ti Ye (5x)\nOm, She No Mi Dzo\nSo Po He" }
+        ];
+
+        // Mathematical helper function to evaluate any continuous point on the spiral path
+        // Advancing spirally in the counterclockwise direction (increasing angle)
+        function getSpiralPosition(t) {
+            // Theta starts at Front (-Math.PI / 2) and rotates counterclockwise (adding t * Math.PI / 2)
+            const theta = -Math.PI / 2 + t * Math.PI / 2;
+            const r = 2.2 + t * 0.05; // Starting just outside the large bubble (radius 2.1)
+            const y = -1.4 + t * 0.1; // Base of the Buddha statue rising up
+            return new THREE.Vector3(r * Math.cos(theta), y, r * Math.sin(theta));
+        }
+
+        // Programmatically generate 40 Siddham LA Nodes (A1 to A40)
+        for (let i = 0; i < 40; i++) {
+            const id = `A${i + 1}`;
+            const name = `Siddham LA Node #${i + 1}`;
+            const pos = getSpiralPosition(i);
+            
+            // Map Three.js coordinates back to Excel schema [X, Z, Y]
+            const excelPos = [pos.x, pos.z, pos.y];
+            
+            baseSphereData.push({
+                id: id,
+                name: name,
+                excelPos: excelPos,
+                chakra: "N/A",
+                image: "06_LA_Gold.png",
+                char: "𑖩",
+                phonetic: "La",
+                series: "Cột Trụ Quang Minh",
+                dharma: "Vajra",
+                filter: "Cột Trụ Quang Minh, Tổng Thể Bồ Đề Tâm",
+                mantra: "So La, So La\nOm, Wa Dz La Jr Ning,\nBo La Ni Bo Do Ye,\nSo Po He"
+            });
+        }
+
+        // --- 2. Setup Scene, Camera, and Renderer ---
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x05070a, 0.03);
+
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+        // Positioned camera at Upper Front Left Corner (-8, 8, 8)
+        camera.position.set(-8, 8, 8);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, powerPreference: "high-performance" });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.2;
+        container.appendChild(renderer.domElement);
+
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.maxDistance = 30;
+        controls.minDistance = 2;
+        controls.target.set(0, 0, 0);
+
+        // --- 3. Environment Map & Lights ---
+        function createStudioEnvMap() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 256;
+            canvas.height = 128;
+            const ctx = canvas.getContext('2d');
+            const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            grad.addColorStop(0, '#101622');
+            grad.addColorStop(0.5, '#05070a');
+            grad.addColorStop(1, '#020305');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(40, 20, 30, 40);
+            ctx.fillRect(180, 40, 40, 30);
+            const texture = new THREE.CanvasTexture(canvas);
+            texture.mapping = THREE.EquirectangularReflectionMapping;
+            return texture;
+        }
+        scene.environment = createStudioEnvMap();
+
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.15);
+        scene.add(ambientLight);
+
+        const keyLight = new THREE.DirectionalLight(0xfff5e6, 2.0);
+        keyLight.position.set(5, 8, 5);
+        keyLight.castShadow = true;
+        scene.add(keyLight);
+
+        const fillLight = new THREE.DirectionalLight(0xdbe9ff, 1.0);
+        fillLight.position.set(-5, 3, -5);
+        scene.add(fillLight);
+
+        const rimLight = new THREE.DirectionalLight(0xffffff, 1.5);
+        rimLight.position.set(0, -5, 0);
+        scene.add(rimLight);
+
+        const coreLight = new THREE.PointLight(0x00aaff, 2.0, 5); 
+        coreLight.position.set(0, 0, 0);
+        scene.add(coreLight);
+
+        // --- 4. Materials Setup ---
+        const privacyBlueGlass = new THREE.MeshPhysicalMaterial({
+            color: 0x88ddff,             
+            emissive: 0x0044aa,          
+            emissiveIntensity: 0.4,      
+            roughness: 0.5,              
+            metalness: 0.1,
+            transmission: 0.75,          
+            ior: 1.5,                    
+            thickness: 1.8,              
+            transparent: true,
+            opacity: 1.0,
+            side: THREE.DoubleSide,
+            depthWrite: false
+        });
+
+        const clearBubbleGlass = new THREE.MeshPhysicalMaterial({
+            color: 0xffffff,
+            roughness: 0.05,
+            metalness: 0.1,
+            transmission: 0.98,
+            ior: 1.52,
+            thickness: 0.3,
+            transparent: true,
+            opacity: 1.0,
+            side: THREE.DoubleSide,
+            depthWrite: false
+        });
+
+        const wallMaterial = new THREE.MeshBasicMaterial({
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0.4,
+            side: THREE.DoubleSide,
+            depthWrite: false,
+            blending: THREE.AdditiveBlending
+        });
+
+        // --- 5. Creating the Large Outer Bubble ---
+        const outerBubbleGeo = new THREE.SphereGeometry(2.1, 64, 64);
+        const outerBubble = new THREE.Mesh(outerBubbleGeo, clearBubbleGlass);
+        scene.add(outerBubble);
+
+        // --- 6. Loading Buddha Model ---
+        const buddhaGroup = new THREE.Group();
+        scene.add(buddhaGroup);
+
+        const loader = new THREE.GLTFLoader();
+        const loadingOverlay = document.getElementById('loading-overlay');
+        const loadingText = document.getElementById('loading-text');
+
+        const MODEL_URL = 'glass+buddha+statue+3d+model.glb'; 
+
+        loader.load(MODEL_URL, 
+            function(gltf) {
+                const buddhaMesh = gltf.scene;
+                buddhaMesh.traverse((node) => {
+                    if (node.isMesh) {
+                        node.material = privacyBlueGlass; 
+                        node.castShadow = true;
+                        node.receiveShadow = true;
+                    }
+                });
+                buddhaMesh.scale.set(1.4, 1.4, 1.4); 
+                buddhaMesh.position.set(0.0, -0.5, -0.18); 
+                buddhaMesh.rotation.y = Math.PI / 2; 
+                buddhaGroup.add(buddhaMesh);
+                loadingOverlay.style.opacity = 0;
+                setTimeout(() => { loadingOverlay.style.display = 'none'; }, 600);
+            },
+            function (xhr) {
+                if (xhr.total > 0) {
+                    const percent = Math.round((xhr.loaded / xhr.total) * 100);
+                    loadingText.innerText = `Calibrating Bodhicitta Matrix (${percent}%)`;
+                }
+            },
+            function(err) {
+                console.warn("Generating procedural fallback.", err);
+                const fallbackGroup = new THREE.Group();
+                const head = new THREE.Mesh(new THREE.SphereGeometry(0.25, 32, 32), privacyBlueGlass);
+                head.position.y = 0.55;
+                fallbackGroup.add(head);
+                const torso = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.28, 0.65, 32), privacyBlueGlass);
+                torso.position.y = 0.1;
+                fallbackGroup.add(torso);
+                const legs = new THREE.Mesh(new THREE.TorusGeometry(0.3, 0.12, 16, 100), privacyBlueGlass);
+                legs.rotation.x = Math.PI / 2;
+                legs.position.y = -0.25;
+                fallbackGroup.add(legs);
+                fallbackGroup.position.set(0.0, -0.5, -0.18);
+                fallbackGroup.rotation.y = Math.PI / 2; 
+                buddhaGroup.add(fallbackGroup);
+                loadingOverlay.style.opacity = 0;
+                setTimeout(() => { loadingOverlay.style.display = 'none'; }, 600);
+            }
+        );
+
+        // --- 7. Creating Spheres & Characters ---
+        const spheresGroup = new THREE.Group();
+        scene.add(spheresGroup);
+
+        const clickableSpheres = []; 
+        const textureLoader = new THREE.TextureLoader();
+
+        function createFallbackGlyphTexture(char, phonetic) {
+            const canvas = document.createElement('canvas');
+            canvas.width = 512;
+            canvas.height = 512;
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, 512, 512);
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.shadowColor = '#ffd700';
+            ctx.shadowBlur = 25;
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 240px sans-serif';
+            ctx.fillText(char, 256, 220);
+            ctx.shadowBlur = 8;
+            ctx.fillStyle = '#ffb90f';
+            ctx.font = '600 48px sans-serif';
+            ctx.fillText(phonetic.toUpperCase(), 256, 400);
+            const tex = new THREE.CanvasTexture(canvas);
+            tex.colorSpace = THREE.SRGBColorSpace;
+            return tex;
+        }
+
+        baseSphereData.forEach((data) => {
+            const x = data.excelPos[0];
+            const y = data.excelPos[2]; // Z in Excel is Y in Three.js
+            const z = data.excelPos[1]; // Y in Excel is Z in Three.js
+            const pos = new THREE.Vector3(x, y, z);
+
+            // ClearBubbleGlass reduced in size by 25% (0.19 * 0.75 = 0.14)
+            const sphereGeo = new THREE.SphereGeometry(0.14, 32, 32);
+            const sphere = new THREE.Mesh(sphereGeo, clearBubbleGlass.clone());
+            sphere.position.copy(pos);
+            sphere.visible = false; // Initially invisible
+            sphere.userData = { 
+                ...data,
+                glow: 0.0,
+                hasBeenCalled: false
+            }; 
+            spheresGroup.add(sphere);
+            clickableSpheres.push(sphere);
+            data.sphereMesh = sphere;
+
+            // Plane size reduced proportionally to fit the bubble (0.35 * 0.75 = 0.26)
+            const planeSize = 0.26; 
+            const planeGeo = new THREE.PlaneGeometry(planeSize, planeSize);
+            let characterTex = createFallbackGlyphTexture(data.char, data.phonetic);
+
+            const charMaterial = new THREE.MeshBasicMaterial({
+                map: characterTex,
+                transparent: true,
+                side: THREE.DoubleSide,
+                depthWrite: false,
+                blending: THREE.AdditiveBlending
+            });
+
+            const plane = new THREE.Mesh(planeGeo, charMaterial);
+            plane.position.copy(pos);
+            plane.visible = false; // Initially invisible
+            spheresGroup.add(plane);
+            data.planeMesh = plane;
+
+            textureLoader.load(
+                data.image,
+                (loadedTex) => {
+                    loadedTex.colorSpace = THREE.SRGBColorSpace;
+                    charMaterial.map = loadedTex;
+                    charMaterial.needsUpdate = true;
+                },
+                undefined,
+                () => {
+                    // Try exact uppercase extension match
+                    const upperImage = data.image.replace('.png', '.PNG');
+                    textureLoader.load(upperImage, (loadedTex) => {
+                        loadedTex.colorSpace = THREE.SRGBColorSpace;
+                        charMaterial.map = loadedTex;
+                        charMaterial.needsUpdate = true;
+                    });
+                }
+            );
+        });
+
+        // --- 8. Dynamic Wall Geometry (Volumetric Cone Light) ---
+        const wallGeometry = new THREE.BufferGeometry();
+        const wallMesh = new THREE.Mesh(wallGeometry, wallMaterial);
+        wallMesh.visible = false; 
+        spheresGroup.add(wallMesh);
+
+        function rebuildWallGeometry() {
+            // Find active LA spiral nodes in the current sequence
+            const activeLANodes = activeSequence.slice(0, currentSeqIndex + 1).filter(node => node.id.startsWith('A'));
+            if (activeLANodes.length < 2) {
+                wallGeometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(), 3));
+                wallGeometry.setIndex([]);
+                return;
+            }
+
+            // Get the highest active spiral index
+            const maxT = Math.max(...activeLANodes.map(node => parseInt(node.id.substring(1)) - 1));
+            
+            const vertices = [];
+            const indices = [];
+            const segmentsPerNode = 16;
+            const totalSegments = Math.round(maxT * segmentsPerNode);
+
+            for (let j = 1; j <= totalSegments; j++) {
+                const tPrev = (j - 1) / segmentsPerNode;
+                const tCurr = j / segmentsPerNode;
+
+                const pPrev = getSpiralPosition(tPrev);
+                const pCurr = getSpiralPosition(tCurr);
+
+                const tPrevX = pPrev.x, tPrevY = pPrev.y, tPrevZ = pPrev.z;
+                const tCurrX = pCurr.x, tCurrY = pCurr.y, tCurrZ = pCurr.z;
+
+                let bPrevX, bPrevY, bPrevZ;
+                if (tPrev >= 4) {
+                    const pBelowPrev = getSpiralPosition(tPrev - 4);
+                    bPrevX = pBelowPrev.x;
+                    bPrevY = pBelowPrev.y;
+                    bPrevZ = pBelowPrev.z;
+                } else {
+                    bPrevX = pPrev.x;
+                    bPrevY = -1.4;
+                    bPrevZ = pPrev.z;
+                }
+
+                let bCurrX, bCurrY, bCurrZ;
+                if (tCurr >= 4) {
+                    const pBelowCurr = getSpiralPosition(tCurr - 4);
+                    bCurrX = pBelowCurr.x;
+                    bCurrY = pBelowCurr.y;
+                    bCurrZ = pBelowCurr.z;
+                } else {
+                    bCurrX = pCurr.x;
+                    bCurrY = -1.4;
+                    bCurrZ = pCurr.z;
+                }
+
+                const baseIndex = vertices.length / 3;
+                vertices.push(
+                    tPrevX, tPrevY, tPrevZ,
+                    tCurrX, tCurrY, tCurrZ,
+                    bPrevX, bPrevY, bPrevZ,
+                    bCurrX, bCurrY, bCurrZ
+                );
+
+                indices.push(
+                    baseIndex + 0, baseIndex + 2, baseIndex + 1,
+                    baseIndex + 1, baseIndex + 2, baseIndex + 3
+                );
+            }
+
+            wallGeometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(vertices), 3));
+            wallGeometry.setIndex(indices);
+            wallGeometry.computeVertexNormals();
+            wallGeometry.attributes.position.needsUpdate = true;
+            if (wallGeometry.index) wallGeometry.index.needsUpdate = true;
+        }
+
+        // --- 9. Base Grid System ---
+        const gridHelper = new THREE.GridHelper(10, 30, 0x00aaff, 0x141a24); 
+        gridHelper.position.y = -1.5;
+        scene.add(gridHelper);
+
+        // --- 10. Dynamic Filter & Multi-Loop Sequencer ---
+        let activeSequence = [];
+        let currentSeqIndex = -1;
+        let seqTimer = 0;
+        const nodeInterval = 2.5; // 2.5 seconds per node step
+        let isRunning = false;
+
+        function generateAnimationSequence() {
+            const filterVal = document.getElementById('filter-select').value;
+            activeSequence = [];
+
+            // 1. Isolate the 40 LA spiral nodes
+            const laNodes = baseSphereData.filter(n => n.id.startsWith('A'));
+
+            // 2. Isolate other nodes matching the filter
+            const otherNodes = baseSphereData.filter(n => {
+                if (n.id.startsWith('A')) return false;
+                const filters = n.filter.split(',').map(f => f.trim());
+                return filters.includes(filterVal);
+            });
+
+            // 3. Chunk other nodes into 10 groups
+            const chunks = Array.from({ length: 10 }, () => []);
+            otherNodes.forEach((node, index) => {
+                chunks[index % 10].push(node);
+            });
+
+            // 4. Interleave sequences across the 10 loops
+            for (let k = 0; k < 10; k++) {
+                // Advance LA spiral by 4 nodes
+                for (let i = 0; i < 4; i++) {
+                    const laNode = laNodes[k * 4 + i];
+                    if (laNode) activeSequence.push(laNode);
+                }
+                // Append chunk of other characters
+                chunks[k].forEach(node => {
+                    activeSequence.push(node);
+                });
+            }
+        }
+
+        function resetAnimation() {
+            isRunning = false;
+            currentSeqIndex = -1;
+            seqTimer = 0;
+
+            clickableSpheres.forEach((sphere) => {
+                sphere.visible = false;
+                sphere.userData.glow = 0.0;
+                sphere.userData.hasBeenCalled = false;
+                sphere.scale.setScalar(1.0);
+            });
+
+            baseSphereData.forEach((data) => {
+                if (data.planeMesh) {
+                    data.planeMesh.visible = false;
+                    data.planeMesh.scale.setScalar(1.0);
+                }
+            });
+
+            wallMesh.visible = false;
+            rebuildWallGeometry();
+            hidePopup();
+            document.getElementById('start-btn').innerText = "Start Formation";
+        }
+
+        function triggerNextStep() {
+            if (currentSeqIndex < activeSequence.length - 1) {
+                currentSeqIndex++;
+                const nodeData = activeSequence[currentSeqIndex];
+
+                const sphere = nodeData.sphereMesh;
+                const plane = nodeData.planeMesh;
+
+                if (sphere && plane) {
+                    sphere.visible = true;
+                    plane.visible = true;
+                    sphere.userData.glow = 2.0; // High initial pulse glow
+                    sphere.userData.hasBeenCalled = true;
+                }
+
+                rebuildWallGeometry();
+            } else {
+                isRunning = false;
+                document.getElementById('start-btn').innerText = "Restart Formation";
+            }
+        }
+
+        // --- 11. Click Interactivity (Raycasting) ---
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
+        
+        const popupCard = document.getElementById('popup-card');
+        const popupName = document.getElementById('popup-name');
+        const popupChakra = document.getElementById('popup-chakra');
+        const popupGlyph = document.getElementById('popup-glyph');
+        const popupCoords = document.getElementById('popup-coords');
+        const popupMantra = document.getElementById('popup-mantra');
+        let activeOutline = null;
+
+        function showPopup(data) {
+            popupName.innerText = `${data.name} (${data.id})`;
+            popupChakra.innerText = data.chakra;
+            popupGlyph.innerText = `${data.char} (${data.phonetic}) - Object: ${data.dharma}`;
+            popupCoords.innerText = `X: ${data.excelPos[0].toFixed(2)}, Y: ${data.excelPos[1].toFixed(2)}, Z: ${data.excelPos[2].toFixed(2)}`;
+            popupMantra.textContent = data.mantra;
+            popupCard.classList.add('active');
+        }
+
+        function hidePopup() {
+            popupCard.classList.remove('active');
+            removeHighlight();
+        }
+
+        function highlightSphere(sphere) {
+            if (activeOutline) spheresGroup.remove(activeOutline);
+            const outlineGeo = new THREE.SphereGeometry(0.16, 16, 16);
+            const outlineMat = new THREE.MeshBasicMaterial({
+                color: 0x00d2ff, 
+                wireframe: true,
+                transparent: true,
+                opacity: 0.5
+            });
+            activeOutline = new THREE.Mesh(outlineGeo, outlineMat);
+            activeOutline.position.copy(sphere.position);
+            spheresGroup.add(activeOutline);
+        }
+
+        function removeHighlight() {
+            if (activeOutline) {
+                spheresGroup.remove(activeOutline);
+                activeOutline = null;
+            }
+        }
+
+        document.getElementById('popup-close').addEventListener('click', (e) => {
+            e.stopPropagation();
+            hidePopup();
+        });
+
+        function handlePointerDown(event) {
+            if (event.target.closest('#ui-container') || event.target.closest('#popup-card') || event.target.closest('#action-container')) return;
+
+            const rect = renderer.domElement.getBoundingClientRect();
+            const clientX = event.touches ? event.touches[0].clientX : event.clientX;
+            const clientY = event.touches ? event.touches[0].clientY : event.clientY;
+
+            mouse.x = ((clientX - rect.left) / rect.width) * 2 - 1;
+            mouse.y = -((clientY - rect.top) / rect.height) * 2 + 1;
+
+            raycaster.setFromCamera(mouse, camera);
+            // Only intersect with visible/called spheres
+            const visibleSpheres = clickableSpheres.filter(s => s.visible);
+            const intersects = raycaster.intersectObjects(visibleSpheres);
+
+            if (intersects.length > 0) {
+                const targetSphere = intersects[0].object;
+                showPopup(targetSphere.userData);
+                highlightSphere(targetSphere);
+            } else {
+                hidePopup();
+            }
+        }
+
+        window.addEventListener('pointerdown', handlePointerDown);
+
+        // --- 12. UI Controls Binding ---
+        const startBtn = document.getElementById('start-btn');
+        const filterSelect = document.getElementById('filter-select');
+        const rotationSpeedInput = document.getElementById('rotation-speed');
+        const billboardModeSelect = document.getElementById('billboard-mode');
+        const glowIntensityInput = document.getElementById('glow-intensity');
+
+        startBtn.addEventListener('click', () => {
+            if (isRunning) {
+                resetAnimation();
+            } else {
+                resetAnimation();
+                generateAnimationSequence();
+                isRunning = true;
+                wallMesh.visible = true;
+                startBtn.innerText = "Reset / Restart";
+                triggerNextStep();
+            }
+        });
+
+        filterSelect.addEventListener('change', () => {
+            resetAnimation();
+        });
+
+        const uiContainer = document.getElementById('ui-container');
+        const uiHeader = document.getElementById('ui-header');
+        const uiToggleBtn = document.getElementById('ui-toggle-btn');
+
+        uiHeader.addEventListener('click', () => {
+            const isCollapsed = uiContainer.classList.toggle('collapsed');
+            uiToggleBtn.innerText = isCollapsed ? '▼' : '▲';
+        });
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // --- 13. Dynamic Glow Updates ---
+        function updateSequentialLighting(delta) {
+            clickableSpheres.forEach((sphere) => {
+                if (!sphere.visible) return;
+
+                const nodeData = sphere.userData;
+                const isLatest = activeSequence[currentSeqIndex] && activeSequence[currentSeqIndex].id === nodeData.id;
+                
+                // Keep a steady-state visible glow once called, pulse higher on call
+                const targetGlow = isLatest ? 1.8 : 0.6;
+                sphere.userData.glow = THREE.MathUtils.lerp(sphere.userData.glow, targetGlow, 0.08);
+
+                // Scale sphere and plane based on energy activation
+                const targetScale = 1.0 + (sphere.userData.glow * 0.25);
+                sphere.scale.setScalar(targetScale);
+
+                const matchingBaseData = baseSphereData.find(d => d.id === nodeData.id);
+                if (matchingBaseData && matchingBaseData.planeMesh) {
+                    matchingBaseData.planeMesh.scale.setScalar(1.0 + (sphere.userData.glow * 0.15));
+                }
+
+                // Smoothly shift glass properties to mimic golden energy activation
+                sphere.material.color.lerpColors(new THREE.Color(0xffffff), new THREE.Color(0xffd700), sphere.userData.glow);
+                sphere.material.emissive.lerpColors(new THREE.Color(0x000000), new THREE.Color(0xffaa00), sphere.userData.glow);
+                sphere.material.emissiveIntensity = sphere.userData.glow * 2.5;
+                sphere.material.roughness = 0.05 + (sphere.userData.glow * 0.3); 
+            });
+        }
+
+        // --- 14. Animation Loop ---
+        const clock = new THREE.Clock();
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            const delta = clock.getDelta();
+            const elapsedTime = clock.getElapsedTime();
+
+            // Core breathing light
+            const glowVal = parseFloat(glowIntensityInput.value);
+            coreLight.intensity = (Math.sin(elapsedTime * 2) * 0.4 + 1.2) * glowVal;
+            coreLight.position.y = Math.sin(elapsedTime * 0.6) * 0.5;
+
+            if (isRunning) {
+                // Step sequencer timer
+                seqTimer += delta;
+                if (seqTimer >= nodeInterval) {
+                    seqTimer = 0;
+                    triggerNextStep();
+                }
+
+                // Sync volumetric cone wall brightness with core glow intensity
+                wallMaterial.opacity = (0.35 + Math.sin(elapsedTime * 3.0) * 0.1) * glowVal;
+            }
+
+            // Sync rotation speed
+            const rpm = parseFloat(rotationSpeedInput.value);
+            const rotSpeedRadPerSec = (rpm * Math.PI * 2) / 60;
+            const rotationStep = rotSpeedRadPerSec * delta;
+
+            spheresGroup.rotation.y += rotationStep;
+            buddhaGroup.rotation.y += rotationStep; 
+
+            // Update sequential lighting lerps
+            updateSequentialLighting(delta);
+
+            // Handle Glyph Plane behavior (Float & Billboard)
+            baseSphereData.forEach((data) => {
+                const plane = data.planeMesh;
+                if (plane && plane.visible) {
+                    const floatOffset = Math.sin(elapsedTime * 1.5 + data.excelPos[0] * 2) * 0.012;
+                    plane.position.y = (data.excelPos[2]) + floatOffset;
+
+                    if (billboardModeSelect.value === 'billboard') {
+                        plane.quaternion.copy(camera.quaternion);
+                    } else {
+                        plane.rotation.y = elapsedTime * 0.5;
+                        plane.rotation.x = 0;
+                        plane.rotation.z = 0;
+                    }
+                }
+            });
+
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        // Initialize first filter sequence
+        generateAnimationSequence();
+        animate();
+    </script>
+</body>
+</html>
