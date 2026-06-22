@@ -610,7 +610,7 @@
         const outerBubble = new THREE.Mesh(outerBubbleGeo, clearBubbleGlass);
         scene.add(outerBubble);
 
-        // --- 6. Loading Buddha Model (Raised back up to align with grid center) ---
+        // --- 6. Loading Buddha Model (Raised back up to align with origin) ---
         const buddhaGroup = new THREE.Group();
         scene.add(buddhaGroup);
 
@@ -911,12 +911,7 @@
             if (wallGeometry.index) wallGeometry.index.needsUpdate = true;
         }
 
-        // --- 9. Base Grid System (Matching grid center at 0,0,0) ---
-        const gridHelper = new THREE.GridHelper(10, 30, 0x00aaff, 0x141a24); 
-        gridHelper.position.y = 0; // Exactly at origin horizontal plane
-        scene.add(gridHelper);
-
-        // --- 9b. Add 6 Laser Beams along the Axial Directions ---
+        // --- 9. Axial Laser Beams (No Grid or Coordinate labels) ---
         function createAxialLaserBeam(direction) {
             const beamGroup = new THREE.Group();
 
@@ -963,37 +958,6 @@
             const laser = createAxialLaserBeam(dir);
             spheresGroup.add(laser); 
         });
-
-        // Helper to generate text sprites for coordinate labels
-        function createAxisLabel(text, x, y, z) {
-            const canvas = document.createElement('canvas');
-            canvas.width = 128;
-            canvas.height = 128;
-            const ctx = canvas.getContext('2d');
-            ctx.clearRect(0, 0, 128, 128);
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillStyle = '#ffd700';
-            ctx.font = 'bold 36px sans-serif';
-            ctx.shadowColor = '#ffaa00';
-            ctx.shadowBlur = 10;
-            ctx.fillText(text, 64, 64);
-
-            const texture = new THREE.CanvasTexture(canvas);
-            const spriteMaterial = new THREE.SpriteMaterial({ map: texture, transparent: true });
-            const sprite = new THREE.Sprite(spriteMaterial);
-            sprite.position.set(x, y, z);
-            sprite.scale.set(0.6, 0.6, 1.0);
-            scene.add(sprite);
-        }
-
-        // Place coordinate labels
-        createAxisLabel("+X", 3.2, 0, 0);
-        createAxisLabel("-X", -3.2, 0, 0);
-        createAxisLabel("+Y", 0, 3.2, 0);
-        createAxisLabel("-Y", 0, -3.2, 0);
-        createAxisLabel("+Z", 0, 0, 3.2);
-        createAxisLabel("-Z", 0, 0, -3.2);
 
         // --- 10. Dynamic Filter & Interleaved Loop Sequencer ---
         let activeSequence = [];
