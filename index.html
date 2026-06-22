@@ -419,56 +419,58 @@
     <script>
         // --- 1. Coordinate, Asset & Mantra Data Mapping ---
         const baseSphereData = [
-            // Group B: Thường Trụ Bất Biến
-            { id: "B1", name: "Forehead", excelPos: [0.0, 0.0, 0.8], chakra: "Third Eye Chakra", image: "01_A_Gold.png", char: "𑖀", phonetic: "A", series: "Thường Trụ Bất Biến", dharma: "Cintamani Jewel", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Mo La, Mo La\nOm, Wa Dz La,\nWa Do La,\nHum Pan Ja" },
-            { id: "B2", name: "Đan Điền", excelPos: [0.0, 0.0, -0.2], chakra: "Sacral Chakra", image: "03_PA_Gold.png", char: "𑖢", phonetic: "Pa", series: "Thường Trụ Bất Biến", dharma: "Jewel Bowl", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Hu Lu, Hu Lu Syi Li,\nOm Jr Li Jr Li,\nWa Jr La,\nHum Pan Ja" },
-            { id: "B3", name: "Front Center", excelPos: [0.0, -0.1, 0.0], chakra: "Solar Plexus Chakra", image: "02_RA_Gold.png", char: "𑖨", phonetic: "Ra", series: "Thường Trụ Bất Biến", dharma: "Lariat Rope", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Mo La, No La\nOm, Jr Li Lai La,\nMo Nai La,\nHum Pan Ja" },
-            { id: "B4", name: "Behind Center", excelPos: [0.0, 0.1, 0.0], chakra: "Behind Solar Plexus Chakra", image: "36_NNA_Gold.png", char: "𑖜", phonetic: "Nna", series: "Thường Trụ Bất Biến", dharma: "Jewel Beads", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Fo La She Li\nNamo La Da Nang\nDa La Ye Ye\nOm, E No Pe Di\nWei Re Yi Syi Di Syi, To Li Ti\nSo Po He" },
-            { id: "B5", name: "Above Right Knee", excelPos: [0.5, -0.5, 0.0], chakra: "N/A", image: "10_SSA_Gold.png", char: "𑖬", phonetic: "Ssa", series: "Thường Trụ Bất Biến", dharma: "Jewel Bow", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Fa Sha Fa Shen\nOm, E Dzo Wei Li\nSo Po He." },
-            { id: "B6", name: "Above Left Knee", excelPos: [-0.5, -0.5, 0.0], chakra: "N/A", image: "11_VA_Gold.png", char: "𑖪", phonetic: "Va", series: "Thường Trụ Bất Biến", dharma: "Jewel Arrow", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Pe Ye Mo No\nOm, Jye No La,\nSo Po He." },
+            // Group B: Thường Trụ Bất Biến (Forehead, Sacral, Front Center, Behind Center, Knees)
+            { id: "B1", name: "Forehead", excelPos: [0.0, 0.8, -0.1], chakra: "Third Eye Chakra", image: "01_A_Gold.png", char: "𑖀", phonetic: "A", series: "Thường Trụ Bất Biến", dharma: "Cintamani Jewel", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Mo La, Mo La\nOm, Wa Dz La,\nWa Do La,\nHum Pan Ja" },
+            { id: "B2", name: "Đan Điền", excelPos: [0.0, -0.2, 0.0], chakra: "Sacral Chakra", image: "03_PA_Gold.png", char: "𑖢", phonetic: "Pa", series: "Thường Trụ Bất Biến", dharma: "Jewel Bowl", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Hu Lu, Hu Lu Syi Li,\nOm Jr Li Jr Li,\nWa Jr La,\nHum Pan Ja" },
+            { id: "B3", name: "Front Center", excelPos: [0.0, 0.0, -0.1], chakra: "Solar Plexus Chakra", image: "02_RA_Gold.png", char: "𑖨", phonetic: "Ra", series: "Thường Trụ Bất Biến", dharma: "Lariat Rope", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Mo La, No La\nOm, Jr Li Lai La,\nMo Nai La,\nHum Pan Ja" },
+            { id: "B4", name: "Behind Center", excelPos: [0.0, 0.0, 0.1], chakra: "Behind Solar Plexus Chakra", image: "36_NNA_Gold.png", char: "𑖜", phonetic: "Nna", series: "Thường Trụ Bất Biến", dharma: "Jewel Beads", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Fo La She Li\nNamo La Da Nang\nDa La Ye Ye\nOm, E No Pe Di\nWei Re Yi Syi Di Syi, To Li Ti\nSo Po He" },
+            { id: "B5", name: "Above Right Knee", excelPos: [0.5, 0.0, -0.5], chakra: "N/A", image: "10_SSA_Gold.png", char: "𑖬", phonetic: "Ssa", series: "Thường Trụ Bất Biến", dharma: "Jewel Bow", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Fa Sha Fa Shen\nOm, E Dzo Wei Li\nSo Po He." },
+            { id: "B6", name: "Above Left Knee", excelPos: [-0.5, 0.0, -0.5], chakra: "N/A", image: "11_VA_Gold.png", char: "𑖪", phonetic: "Va", series: "Thường Trụ Bất Biến", dharma: "Jewel Arrow", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Pe Ye Mo No\nOm, Jye No La,\nSo Po He." },
 
-            // Remaining Groups (Mapped correctly based on new Excel order)
-            { id: "B7", name: "Bottom Outer", excelPos: [0.0, 0.0, -2.0], chakra: "N/A", image: "09_DDA_Gold.png", char: "𑖚", phonetic: "Dda", series: "Liên Hoa Bồ Đề Tâm", dharma: "Moon Essence Mani", filter: "A3/3/3, A5/3/3, A5/5/5, Tổng Thể Bồ Đề Tâm", mantra: "Du Lu Du Lu\nOm, Su Syi Di Jya Li\nSo Po He" },
-            { id: "B8", name: "Bottom Inner", excelPos: [0.0, 0.0, -1.0], chakra: "Root Chakra", image: "13_YA_Gold.png", char: "𑖧", phonetic: "Ya", series: "Liên Hoa Bồ Đề Tâm", dharma: "Treasure Chest", filter: "A5/3/3, A5/5/5, Tổng Thể Bồ Đề Tâm", mantra: "Syi To Yu Yi, Shr Pan La Ye\nOm, Wa Dz La,\nBo Shr Jye Li,\nJye Nang Syin La Hum" },
+            // Symmetrical Axial Nodes (B7–B21)
+            { id: "B7", name: "Bottom Outer", excelPos: [0.0, -2.0, 0.0], chakra: "N/A", image: "09_DDA_Gold.png", char: "𑖚", phonetic: "Dda", series: "Liên Hoa Bồ Đề Tâm", dharma: "Moon Essence Mani", filter: "A3/3/3, A5/3/3, A5/5/5, Tổng Thể Bồ Đề Tâm", mantra: "Du Lu Du Lu\nOm, Su Syi Di Jya Li\nSo Po He" },
+            { id: "B8", name: "Bottom Inner", excelPos: [0.0, -1.0, 0.0], chakra: "Root Chakra", image: "13_YA_Gold.png", char: "𑖧", phonetic: "Ya", series: "Liên Hoa Bồ Đề Tâm", dharma: "Treasure Chest", filter: "A5/3/3, A5/5/5, Tổng Thể Bồ Đề Tâm", mantra: "Syi To Yu Yi, Shr Pan La Ye\nOm, Wa Dz La,\nBo Shr Jye Li,\nJye Nang Syin La Hum" },
             { id: "B9", name: "Center", excelPos: [0.0, 0.0, 0.0], chakra: "Solar Plexus Chakra", image: "04_CA_Gold.png", char: "𑖓", phonetic: "Ca", series: "Liên Hoa Bồ Đề Tâm", dharma: "Jewel Sword", filter: "A3/3/3, A5/3/3, A5/5/5, Tổng Thể Bồ Đề Tâm", mantra: "Di Li Shai Ni No\nOm, Di Shr Di Re,\nDu Wei Ning Du Ti,\nSo To Ye,\nHum Pan Ja" },
-            { id: "B10", name: "Top Inner", excelPos: [0.0, 0.0, 1.0], chakra: "Crown Chakra", image: "16_SA_Gold.png", char: "𑖭", phonetic: "Sa", series: "Liên Hoa Bồ Đề Tâm", dharma: "Sweet Dews", filter: "A5/3/3, A5/5/5, Tổng Thể Bồ Đề Tâm", mantra: "Su Lu Su Lu\nOm, Su Lu Su Lu,\nBo La Su Lu, Bo La Su Lu,\nSu Lu Su Lu Ye,\nSo Po He" },
-            { id: "B11", name: "Top Outer", excelPos: [0.0, 0.0, 2.0], chakra: "N/A", image: "08_BA_Gold.png", char: "𑖤", phonetic: "Ba", series: "Liên Hoa Bồ Đề Tâm", dharma: "Sun Essence Mani", filter: "A3/3/3, A5/3/3, A5/5/5, Tổng Thể Bồ Đề Tâm", mantra: "Shr Fo La Ye\nOm, Du Bi Jya Ye Du Bi,\nBo La Wa Li Ning\nSo Po He." },
-            { id: "B12", name: "Back Outer", excelPos: [0.0, 2.0, 0.0], chakra: "N/A", image: "09_DDA_Gold.png", char: "𑖚", phonetic: "Dda", series: "Liên Hoa Bồ Đề Tâm", dharma: "Moon Essence Mani", filter: "A3/3/3, A5/3/3, A5/5/5, Tổng Thể Bồ Đề Tâm", mantra: "Du Lu Du Lu\nOm, Su Syi Di Jya Li\nSo Po He" },
-            { id: "B13", name: "Back Inner", excelPos: [0.0, 1.0, 0.0], chakra: "N/A", image: "25_KSSA_Gold.png", char: "𑖎𑖿𑖬", phonetic: "Kssa", series: "Liên Hoa Bồ Đề Tâm", dharma: "Red Lotus", filter: "A5/5/5, Tổng Thể Bồ Đề Tâm", mantra: "Bo To Mo Jye Syi To Ye\nOm, Shang Jye Li,\nSo Po He" },
+            { id: "B10", name: "Top Inner", excelPos: [0.0, 1.0, 0.0], chakra: "Crown Chakra", image: "16_SA_Gold.png", char: "𑖭", phonetic: "Sa", series: "Liên Hoa Bồ Đề Tâm", dharma: "Sweet Dews", filter: "A5/3/3, A5/5/5, Tổng Thể Bồ Đề Tâm", mantra: "Su Lu Su Lu\nOm, Su Lu Su Lu,\nBo La Su Lu, Bo La Su Lu,\nSu Lu Su Lu Ye,\nSo Po He" },
+            { id: "B11", name: "Top Outer", excelPos: [0.0, 2.0, 0.0], chakra: "N/A", image: "08_BA_Gold.png", char: "𑖤", phonetic: "Ba", series: "Liên Hoa Bồ Đề Tâm", dharma: "Sun Essence Mani", filter: "A3/3/3, A5/3/3, A5/5/5, Tổng Thể Bồ Đề Tâm", mantra: "Shr Fo La Ye\nOm, Du Bi Jya Ye Du Bi,\nBo La Wa Li Ning\nSo Po He." },
+            { id: "B12", name: "Back Outer", excelPos: [0.0, 0.0, 2.0], chakra: "N/A", image: "09_DDA_Gold.png", char: "𑖚", phonetic: "Dda", series: "Liên Hoa Bồ Đề Tâm", dharma: "Moon Essence Mani", filter: "A3/3/3, A5/3/3, A5/5/5, Tổng Thể Bồ Đề Tâm", mantra: "Du Lu Du Lu\nOm, Su Syi Di Jya Li\nSo Po He" },
+            { id: "B13", name: "Back Inner", excelPos: [0.0, 0.0, 1.0], chakra: "N/A", image: "25_KSSA_Gold.png", char: "𑖎𑖿𑖬", phonetic: "Kssa", series: "Liên Hoa Bồ Đề Tâm", dharma: "Red Lotus", filter: "A5/5/5, Tổng Thể Bồ Đề Tâm", mantra: "Bo To Mo Jye Syi To Ye\nOm, Shang Jye Li,\nSo Po He" },
             { id: "B14", name: "Center", excelPos: [0.0, 0.0, 0.0], chakra: "Solar Plexus Chakra", image: "04_CA_Gold.png", char: "𑖓", phonetic: "Ca", series: "Liên Hoa Bồ Đề Tâm", dharma: "Jewel Sword", filter: "A3/3/3, A5/3/3, A5/5/5, Tổng Thể Bồ Đề Tâm", mantra: "Di Li Shai Ni No\nOm, Di Shr Di Re,\nDu Wei Ning Du Ti,\nSo To Ye,\nHum Pan Ja" },
-            { id: "B15", name: "Front Inner", excelPos: [0.0, -1.0, 0.0], chakra: "N/A", image: "18_GA_Gold.png", char: "𑖐", phonetic: "Ga", series: "Liên Hoa Bồ Đề Tâm", dharma: "White Lotus", filter: "A5/5/5, Tổng Thể Bồ Đề Tâm", mantra: "Jye meng\nOm, Wa Dz La,\nWei La Ye,\nSo Po He" },
-            { id: "B16", name: "Front Outer", excelPos: [0.0, -2.0, 0.0], chakra: "N/A", image: "08_BA_Gold.png", char: "𑖤", phonetic: "Ba", series: "Liên Hoa Bồ Đề Tâm", dharma: "Sun Essence Mani", filter: "A3/3/3, A5/3/3, A5/5/5, Tổng Thể Bồ Đề Tâm", mantra: "Shr Fo La Ye\nOm, Du Bi Jya Ye Du Bi,\nBo La Wa Li Ning\nSo Po He." },
+            { id: "B15", name: "Front Inner", excelPos: [0.0, 0.0, -1.0], chakra: "N/A", image: "18_GA_Gold.png", char: "𑖐", phonetic: "Ga", series: "Liên Hoa Bồ Đề Tâm", dharma: "White Lotus", filter: "A5/5/5, Tổng Thể Bồ Đề Tâm", mantra: "Jye meng\nOm, Wa Dz La,\nWei La Ye,\nSo Po He" },
+            { id: "B16", name: "Front Outer", excelPos: [0.0, 0.0, -2.0], chakra: "N/A", image: "08_BA_Gold.png", char: "𑖤", phonetic: "Ba", series: "Liên Hoa Bồ Đề Tâm", dharma: "Sun Essence Mani", filter: "A3/3/3, A5/3/3, A5/5/5, Tổng Thể Bồ Đề Tâm", mantra: "Shr Fo La Ye\nOm, Du Bi Jya Ye Du Bi,\nBo La Wa Li Ning\nSo Po He." },
             { id: "B17", name: "Right Outer", excelPos: [2.0, 0.0, 0.0], chakra: "N/A", image: "09_DDA_Gold.png", char: "𑖚", phonetic: "Dda", series: "Liên Hoa Bồ Đề Tâm", dharma: "Moon Essence Mani", filter: "A3/3/3, A5/3/3, A5/5/5, Tổng Thể Bồ Đề Tâm", mantra: "Du Lu Du Lu\nOm, Su Syi Di Jya Li\nSo Po He" },
             { id: "B18", name: "Right Inner", excelPos: [1.0, 0.0, 0.0], chakra: "N/A", image: "21_SVA_Gold.png", char: "𑖭𑖿𑖪", phonetic: "Sva", series: "Liên Hoa Bồ Đề Tâm", dharma: "Purple Lotus", filter: "A5/5/5, Tổng Thể Bồ Đề Tâm", mantra: "Fo La She Ye\nOm, Sa La Sa La,\nWa Dz La, Jya La,\nHum Pan Ja" },
             { id: "B19", name: "Center", excelPos: [0.0, 0.0, 0.0], chakra: "Solar Plexus Chakra", image: "04_CA_Gold.png", char: "𑖓", phonetic: "Ca", series: "Liên Hoa Bồ Đề Tâm", dharma: "Jewel Sword", filter: "A3/3/3, A5/3/3, A5/5/5, Tổng Thể Bồ Đề Tâm", mantra: "Di Li Shai Ni No\nOm, Di Shr Di Re,\nDu Wei Ning Du Ti,\nSo To Ye,\nHum Pan Ja" },
             { id: "B20", name: "Left Inner", excelPos: [-1.0, 0.0, 0.0], chakra: "N/A", image: "19_THA_Gold.png", char: "𑖞", phonetic: "Tha", series: "Liên Hoa Bồ Đề Tâm", dharma: "Blue Lotus", filter: "A5/5/5, Tổng Thể Bồ Đề Tâm", mantra: "Li To Yun\nOm, Jr Li Jr Li,\nWa Dz La,\nBu La Pan To,\nHum Pan Ja" },
             { id: "B21", name: "Left Outer", excelPos: [-2.0, 0.0, 0.0], chakra: "N/A", image: "08_BA_Gold.png", char: "𑖤", phonetic: "Ba", series: "Liên Hoa Bồ Đề Tâm", dharma: "Sun Essence Mani", filter: "A3/3/3, A5/3/3, A5/5/5, Tổng Thể Bồ Đề Tâm", mantra: "Shr Fo La Ye\nOm, Du Bi Jya Ye Du Bi,\nBo La Wa Li Ning\nSo Po He." },
-            { id: "B22", name: "Tâm Luân", excelPos: [0.0, 0.0, 0.2], chakra: "Heart Chakra", image: "11_VA_Gold.png", char: "𑖪", phonetic: "Va", series: "Liên Hoa Bồ Đề Tâm", dharma: "Integral Lotus", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Om, Syin Dian Do\nMan Do La,\nBa To Ye\nSo Po He" },
-            { id: "B23", name: "Cổ (Front)", excelPos: [0.0, -0.2, 0.5], chakra: "Throat Chakra", image: "33_TSA_Gold.png", char: "𑖝𑖿𑖭", phonetic: "Tsa", series: "Liên Hoa Bồ Đề Tâm", dharma: "Jewel Axe", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Syi Lu Seng, E Mu Chywe Ye\nOm, Wei La Ye,\nWei La Ye\nSo Po He" },
-            { id: "B24", name: "Cổ (Center)", excelPos: [0.0, 0.0, 0.5], chakra: "Throat Chakra", image: "14_SSTTA_Gold.png", char: "𑖬𑖿𑖘", phonetic: "Sstta", series: "Liên Hoa Bồ Đề Tâm", dharma: "Pure Vase", filter: "Tổng Thể Bồ Đề Tâm", mantra: "No La Jin Jr\nOm, Jye Li San Man Yen,\nSo Po He" },
-            { id: "B25", name: "High Above Head", excelPos: [0.0, 0.0, 1.5], chakra: "N/A", image: "39_YSA_Gold.png", char: "𑖧𑖿𑖭", phonetic: "Ysa", series: "Liên Hoa Bồ Đề Tâm", dharma: "Transformation Buddha Atop The Crown", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Pu To Ye\nOm, Wa Dz Li Ni,\nWa Dz Lan Yi,\nSo Po He" },
+
+            // Group B Colored Spheres (Tâm Luân, Cổ, High Above Head)
+            { id: "B22", name: "Tâm Luân", excelPos: [0.0, 0.2, 0.0], chakra: "Heart Chakra", image: "11_VA_Gold.png", char: "𑖪", phonetic: "Va", series: "Liên Hoa Bồ Đề Tâm", dharma: "Integral Lotus", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Om, Syin Dian Do\nMan Do La,\nBa To Ye\nSo Po He" },
+            { id: "B23", name: "Cổ (Front)", excelPos: [0.0, 0.5, -0.1], chakra: "Throat Chakra", image: "33_TSA_Gold.png", char: "𑖝𑖿𑖭", phonetic: "Tsa", series: "Liên Hoa Bồ Đề Tâm", dharma: "Jewel Axe", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Syi Lu Seng, E Mu Chywe Ye\nOm, Wei La Ye,\nWei La Ye\nSo Po He" },
+            { id: "B24", name: "Cổ (Center)", excelPos: [0.0, 0.5, 0.0], chakra: "Throat Chakra", image: "14_SSTTA_Gold.png", char: "𑖬𑖿𑖘", phonetic: "Sstta", series: "Liên Hoa Bồ Đề Tâm", dharma: "Pure Vase", filter: "Tổng Thể Bồ Đề Tâm", mantra: "No La Jin Jr\nOm, Jye Li San Man Yen,\nSo Po He" },
+            { id: "B25", name: "High Above Head", excelPos: [0.0, 1.5, 0.0], chakra: "N/A", image: "39_YSA_Gold.png", char: "𑖧𑖿𑖭", phonetic: "Ysa", series: "Liên Hoa Bồ Đề Tâm", dharma: "Transformation Buddha Atop The Crown", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Pu To Ye\nOm, Wa Dz Li Ni,\nWa Dz Lan Yi,\nSo Po He" },
 
             // Group D: Lục Tý
-            { id: "B26", name: "Joined Palm", excelPos: [0.0, -0.3, 0.2], chakra: "N/A", image: "34_GHA_Gold.png", char: "𑖑", phonetic: "Gha", series: "Lục Tý", dharma: "Joined Palm", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Syi Li, Syi Li\nOm, Bo Na Man\nRe Ling He Li.\nOm, Wei Sala Wei Sala\nHum Pan Ja" },
-            { id: "B27", name: "Lower Left Palm", excelPos: [-0.3, -0.3, -0.3], chakra: "N/A", image: "07_DA_Gold.png", char: "𑖟", phonetic: "Da", series: "Lục Tý", dharma: "Fearless Palm", filter: "Tổng Thể Bồ Đề Tâm", mantra: "No La Jin Jr Pan Jye La Ye\nOm, Dz La Nan Ye\nHum Pan Ja" },
-            { id: "B28", name: "Lower Right Palm", excelPos: [0.3, -0.3, -0.3], chakra: "N/A", image: "16_SA_Gold.png", char: "𑖭", phonetic: "Sa", series: "Lục Tý", dharma: "Sweet Dews", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Su Lu Su Lu\nOm, Su Lu Su Lu,\nBo La Su Lu, Bo La Su Lu,\nSu Lu Su Lu Ye,\nSo Po He" },
-            { id: "B29", name: "Upper Open Left Palm", excelPos: [-0.5, -0.5, 0.3], chakra: "N/A", image: "08_BA_Gold.png", char: "𑖤", phonetic: "Ba", series: "Lục Tý", dharma: "Sun Essence Mani", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Shr Fo La Ye\nOm, Du Bi Jya Ye Du Bi,\nBo La Wa Li Ning\nSo Po He." },
-            { id: "B30", name: "Upper Open Right Palm", excelPos: [0.5, -0.5, 0.3], chakra: "N/A", image: "09_DDA_Gold.png", char: "𑖚", phonetic: "Dda", series: "Lục Tý", dharma: "Moon Essence Mani", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Du Lu Du Lu\nOm, Su Syi Di Jya Li\nSo Po He" },
-            { id: "B31", name: "Meditation Mutra", excelPos: [0.0, -0.3, -0.3], chakra: "N/A", image: "42_DDHA_Gold.png", char: "𑖛", phonetic: "Ddha", series: "Lục Tý", dharma: "Thousand Hands & Eyes", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Mo Pe Li Sheng Jye La Ye\nOm, Da Ni Ye To,\nWa Lu Jr Di,\nShr Wa La Ye,\nSa Pe Du Shai,\nJa Ming He Mi Ye,\nSo Po He" },
+            { id: "B26", name: "Joined Palm", excelPos: [0.0, 0.2, -0.3], chakra: "N/A", image: "34_GHA_Gold.png", char: "𑖑", phonetic: "Gha", series: "Lục Tý", dharma: "Joined Palm", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Syi Li, Syi Li\nOm, Bo Na Man\nRe Ling He Li.\nOm, Wei Sala Wei Sala\nHum Pan Ja" },
+            { id: "B27", name: "Lower Left Palm", excelPos: [-0.2, -0.1, -0.3], chakra: "N/A", image: "07_DA_Gold.png", char: "𑖟", phonetic: "Da", series: "Lục Tý", dharma: "Fearless Palm", filter: "Tổng Thể Bồ Đề Tâm", mantra: "No La Jin Jr Pan Jye La Ye\nOm, Dz La Nan Ye\nHum Pan Ja" },
+            { id: "B28", name: "Lower Right Palm", excelPos: [0.2, -0.1, -0.3], chakra: "N/A", image: "16_SA_Gold.png", char: "𑖭", phonetic: "Sa", series: "Lục Tý", dharma: "Sweet Dews", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Su Lu Su Lu\nOm, Su Lu Su Lu,\nBo La Su Lu, Bo La Su Lu,\nSu Lu Su Lu Ye,\nSo Po He" },
+            { id: "B29", name: "Upper Open Left Palm", excelPos: [-0.5, 0.3, -0.5], chakra: "N/A", image: "08_BA_Gold.png", char: "𑖤", phonetic: "Ba", series: "Lục Tý", dharma: "Sun Essence Mani", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Shr Fo La Ye\nOm, Du Bi Jya Ye Du Bi,\nBo La Wa Li Ning\nSo Po He." },
+            { id: "B30", name: "Upper Open Right Palm", excelPos: [0.5, 0.3, -0.5], chakra: "N/A", image: "09_DDA_Gold.png", char: "𑖚", phonetic: "Dda", series: "Lục Tý", dharma: "Moon Essence Mani", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Du Lu Du Lu\nOm, Su Syi Di Jya Li\nSo Po He" },
+            { id: "B31", name: "Meditation Mutra", excelPos: [0.0, -0.1, -0.3], chakra: "N/A", image: "42_DDHA_Gold.png", char: "𑖛", phonetic: "Ddha", series: "Lục Tý", dharma: "Thousand Hands & Eyes", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Mo Pe Li Sheng Jye La Ye\nOm, Da Ni Ye To,\nWa Lu Jr Di,\nShr Wa La Ye,\nSa Pe Du Shai,\nJa Ming He Mi Ye,\nSo Po He" },
 
             // Group E: Ending
-            { id: "B32", name: "Left Knee", excelPos: [-0.5, -0.5, -0.3], chakra: "N/A", image: "24_KHA_Gold.png", char: "𑖏", phonetic: "Kha", series: "Ending", dharma: "Jewel Staff", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Mi Di Li Ye\nOm, No Li Ti No Li Ti\nNo Li Ja Bo Di\nNo Li Di No\nYe Bo Ning\nHum Pan Ja" },
-            { id: "B33", name: "Right Knee", excelPos: [0.5, -0.5, -0.3], chakra: "N/A", image: "01_A_Gold.png", char: "𑖀", phonetic: "A", series: "Ending", dharma: "Cintamani Jewel", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Mo La, Mo La\nOm, Wa Dz La,\nWa Do La,\nHum Pan Ja" },
-            { id: "B34", name: "Center of Mandala", excelPos: [0.0, 0.0, -0.5], chakra: "Root Chakra", image: "37_PHA_Gold.png", char: "𑖣", phonetic: "Pha", series: "Ending", dharma: "Non-retreating Dharma Wheel", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Pu Ti Ye (5x)\nOm, She No Mi Dzo\nSo Po He" }
+            { id: "B32", name: "Left Knee", excelPos: [-0.5, -0.3, -0.4], chakra: "N/A", image: "24_KHA_Gold.png", char: "𑖏", phonetic: "Kha", series: "Ending", dharma: "Jewel Staff", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Mi Di Li Ye\nOm, No Li Ti No Li Ti\nNo Li Ja Bo Di\nNo Li Di No\nYe Bo Ning\nHum Pan Ja" },
+            { id: "B33", name: "Right Knee", excelPos: [0.5, -0.3, -0.4], chakra: "N/A", image: "01_A_Gold.png", char: "𑖀", phonetic: "A", series: "Ending", dharma: "Cintamani Jewel", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Mo La, Mo La\nOm, Wa Dz La,\nWa Do La,\nHum Pan Ja" },
+            { id: "B34", name: "Center of Mandala", excelPos: [0.0, -0.5, 0.0], chakra: "Root Chakra", image: "37_PHA_Gold.png", char: "𑖣", phonetic: "Pha", series: "Ending", dharma: "Non-retreating Dharma Wheel", filter: "Tổng Thể Bồ Đề Tâm", mantra: "Pu Ti Ye (5x)\nOm, She No Mi Dzo\nSo Po He" }
         ];
 
         // Mathematical helper function to evaluate any continuous point on the spiral path
-        // Advancing spirally in the clockwise direction (decreasing angle)
+        // Advancing spirally in the counterclockwise direction (increasing angle)
         function getSpiralPosition(t) {
-            // Theta starts at Front (-Math.PI / 2) and rotates clockwise (subtracting t * Math.PI / 2)
-            const theta = -Math.PI / 2 - t * Math.PI / 2;
+            // Theta starts at Front (-Math.PI / 2) and rotates counterclockwise (adding t * Math.PI / 2)
+            const theta = -Math.PI / 2 + t * Math.PI / 2;
             const r = 2.0 + t * 0.05; // Starting just outside the reduced bubble (radius 1.9)
-            const y = -0.4 + t * 0.1; // Starting height up +1.0 (original -1.4 + 1.0 = -0.4)
+            const y = -0.4 + t * 0.1; // Starting height shifted up by +1.0
             return new THREE.Vector3(r * Math.cos(theta), y, r * Math.sin(theta));
         }
 
@@ -478,8 +480,8 @@
             const name = `Siddham LA Node #${i + 1}`;
             const pos = getSpiralPosition(i);
             
-            // Map Three.js coordinates back to Excel schema [X, Z, Y]
-            const excelPos = [pos.x, pos.z, pos.y];
+            // Map directly to standard 3D coordinates [X, Y, Z]
+            const excelPos = [pos.x, pos.y, pos.z];
             
             baseSphereData.push({
                 id: id,
@@ -502,8 +504,8 @@
         scene.fog = new THREE.FogExp2(0x05070a, 0.03);
 
         const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
-        // Positioned camera at default view angle (5, 5, -5) in the +X, +Y, -Z quadrant
-        camera.position.set(5, 5, -5);
+        // Positioned camera at default view angle (5, 3, -5) in the +X, +Y, -Z quadrant
+        camera.position.set(5, 3, -5);
 
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, powerPreference: "high-performance" });
         renderer.setSize(window.innerWidth, window.innerHeight);
@@ -688,36 +690,94 @@
             return tex;
         }
 
+        // Dynamic material helper to map Excel specifications to Three.js physical properties
+        function getSphereMaterial(id) {
+            const num = parseInt(id.substring(1));
+            let color = 0xffffff;
+            let emissive = 0x000000;
+
+            if (id.startsWith('B')) {
+                if (num >= 1 && num <= 6) {
+                    color = 0xa020f0; // Purple
+                    emissive = 0x5000aa;
+                } else if (num >= 7 && num <= 21) {
+                    color = 0xffffff; // White
+                    emissive = 0x000000;
+                } else if (num >= 22 && num <= 25) {
+                    color = 0x00ff66; // Green
+                    emissive = 0x00aa33;
+                } else if (num >= 26 && num <= 31) {
+                    color = 0x00aaff; // Blue
+                    emissive = 0x0044aa;
+                } else if (num >= 32 && num <= 34) {
+                    color = 0xffaa00; // Orange
+                    emissive = 0xaa5500;
+                }
+            }
+
+            return new THREE.MeshPhysicalMaterial({
+                color: color,
+                emissive: emissive,
+                emissiveIntensity: 0.0,
+                roughness: 0.1,
+                metalness: 0.1,
+                transmission: 0.9,
+                ior: 1.52,
+                thickness: 0.2,
+                transparent: true,
+                opacity: 1.0,
+                side: THREE.DoubleSide,
+                depthWrite: false
+            });
+        }
+
+        // Helper to reset materials to default base colors
+        function resetSphereMaterial(sphere) {
+            const id = sphere.userData.id;
+            const num = parseInt(id.substring(1));
+            let color = 0xffffff;
+            let emissive = 0x000000;
+
+            if (id.startsWith('B')) {
+                if (num >= 1 && num <= 6) {
+                    color = 0xa020f0;
+                    emissive = 0x5000aa;
+                } else if (num >= 7 && num <= 21) {
+                    color = 0xffffff;
+                    emissive = 0x000000;
+                } else if (num >= 22 && num <= 25) {
+                    color = 0x00ff66;
+                    emissive = 0x00aa33;
+                } else if (num >= 26 && num <= 31) {
+                    color = 0x00aaff;
+                    emissive = 0x0044aa;
+                } else if (num >= 32 && num <= 34) {
+                    color = 0xffaa00;
+                    emissive = 0xaa5500;
+                }
+            }
+            sphere.material.color.setHex(color);
+            sphere.material.emissive.setHex(emissive);
+        }
+
         baseSphereData.forEach((data) => {
             const x = data.excelPos[0];
-            const y = data.excelPos[2]; // Z in Excel is Y in Three.js
-            const z = data.excelPos[1]; // Y in Excel is Z in Three.js
+            const y = data.excelPos[1]; 
+            const z = data.excelPos[2]; 
             const pos = new THREE.Vector3(x, y, z);
 
             const isGroupB = data.id.startsWith('B');
+            const num = parseInt(data.id.substring(1));
             
-            // Group B spheres size increased to 0.10 (radius)
-            const radius = isGroupB ? 0.10 : 0.14;
-            const sphereGeo = new THREE.SphereGeometry(radius, 32, 32);
-            
-            // Group B starts as Green Transparent
-            let mat;
+            // Map sphere sizes based on Excel (0.7 of standard is 0.10, 1.0 is 0.14)
+            let radius = 0.14;
             if (isGroupB) {
-                mat = new THREE.MeshPhysicalMaterial({
-                    color: 0x00ff66,
-                    roughness: 0.1,
-                    metalness: 0.1,
-                    transmission: 0.9,
-                    ior: 1.52,
-                    thickness: 0.2,
-                    transparent: true,
-                    opacity: 1.0,
-                    side: THREE.DoubleSide,
-                    depthWrite: false
-                });
-            } else {
-                mat = clearBubbleGlass.clone();
+                const isSmall = (num >= 1 && num <= 6) || (num >= 22 && num <= 34);
+                radius = isSmall ? 0.10 : 0.14;
             }
+
+            const sphereGeo = new THREE.SphereGeometry(radius, 32, 32);
+            const mat = getSphereMaterial(data.id);
 
             const sphere = new THREE.Mesh(sphereGeo, mat);
             sphere.position.copy(pos);
@@ -731,8 +791,8 @@
             clickableSpheres.push(sphere);
             data.sphereMesh = sphere;
 
-            // Plane size scaled proportionally (0.10 * 1.8 = 0.18)
-            const planeSize = isGroupB ? 0.18 : 0.26; 
+            // Map inner plane size proportionally to fit the bubble perfectly
+            const planeSize = isGroupB ? (radius * 1.8) : 0.26; 
             const planeGeo = new THREE.PlaneGeometry(planeSize, planeSize);
             let characterTex = createFallbackGlyphTexture(data.char, data.phonetic);
 
@@ -811,7 +871,7 @@
                     bPrevZ = pBelowPrev.z;
                 } else {
                     bPrevX = pPrev.x;
-                    bPrevY = -1.4;
+                    bPrevY = -0.4; // Clamped to Node 0 height so it never rises below Node 0
                     bPrevZ = pPrev.z;
                 }
 
@@ -823,7 +883,7 @@
                     bCurrZ = pBelowCurr.z;
                 } else {
                     bCurrX = pCurr.x;
-                    bCurrY = -1.4;
+                    bCurrY = -0.4; // Clamped to Node 0 height
                     bCurrZ = pCurr.z;
                 }
 
@@ -990,15 +1050,7 @@
                 sphere.userData.glow = 0.0;
                 sphere.userData.hasBeenCalled = false;
                 sphere.scale.setScalar(1.0);
-                
-                // Reset Group B spheres back to green transparent
-                if (sphere.userData.id.startsWith('B')) {
-                    sphere.material.color.setHex(0x00ff66);
-                    sphere.material.emissive.setHex(0x000000);
-                } else {
-                    sphere.material.color.setHex(0xffffff);
-                    sphere.material.emissive.setHex(0x000000);
-                }
+                resetSphereMaterial(sphere);
             });
 
             baseSphereData.forEach((data) => {
@@ -1019,12 +1071,11 @@
                 currentSeqIndex++;
                 const nodeData = activeSequence[currentSeqIndex];
 
-                // Clear out all B-group spheres immediately before running a new loop/cycle for Group B
+                // Clear out all B-group spheres immediately before running a new loop/cycle for Group B (when transitioning from A to B1)
                 const isBGroup = nodeData.id.startsWith('B');
-                const prevNodeData = currentSeqIndex > 0 ? activeSequence[currentSeqIndex - 1] : null;
-                const transitionedToB = isBGroup && (!prevNodeData || prevNodeData.id.startsWith('A'));
+                const isFirstB = nodeData.id === 'B1';
 
-                if (transitionedToB) {
+                if (isFirstB) {
                     clickableSpheres.forEach((sphere) => {
                         if (sphere.userData.id.startsWith('B')) {
                             sphere.visible = false;
@@ -1033,8 +1084,7 @@
                             if (sphere.userData.planeMesh) {
                                 sphere.userData.planeMesh.visible = false;
                             }
-                            sphere.material.color.setHex(0x00ff66);
-                            sphere.material.emissive.setHex(0x000000);
+                            resetSphereMaterial(sphere);
                         }
                     });
                 }
@@ -1096,7 +1146,8 @@
 
         function highlightSphere(sphere) {
             if (activeOutline) spheresGroup.remove(activeOutline);
-            const outlineRadius = sphere.userData.id.startsWith('B') ? 0.12 : 0.16;
+            const isSmall = sphere.userData.id.startsWith('B') && (sphere.userData.id !== 'B7' && sphere.userData.id !== 'B8' && !sphere.userData.id.match(/^B[1-2][0-9]$|^B21$/));
+            const outlineRadius = isSmall ? 0.12 : 0.16;
             const outlineGeo = new THREE.SphereGeometry(outlineRadius, 16, 16);
             const outlineMat = new THREE.MeshBasicMaterial({
                 color: 0x00d2ff, 
@@ -1213,14 +1264,40 @@
                 }
 
                 if (nodeData.id.startsWith('B')) {
-                    // Group B spheres transition to Red transparent when called, and fade to Green transparent when settled
-                    let targetColor = isLatest ? new THREE.Color(0xff3333) : new THREE.Color(0x00ff66);
-                    let targetEmissive = isLatest ? new THREE.Color(0xff0000) : new THREE.Color(0x00aa33);
-                    
-                    sphere.material.color.lerp(targetColor, 0.08);
-                    sphere.material.emissive.lerp(targetEmissive, 0.08);
-                    sphere.material.emissiveIntensity = sphere.userData.glow * 2.5;
-                    sphere.material.roughness = 0.05 + (sphere.userData.glow * 0.3);
+                    const num = parseInt(nodeData.id.substring(1));
+                    const isWhite = num >= 7 && num <= 21;
+
+                    if (isWhite) {
+                        // B7–B21 (White) transition to Gold when called and fade back to White
+                        sphere.material.color.lerpColors(new THREE.Color(0xffffff), new THREE.Color(0xffd700), sphere.userData.glow);
+                        sphere.material.emissive.lerpColors(new THREE.Color(0x000000), new THREE.Color(0xffaa00), sphere.userData.glow);
+                        sphere.material.emissiveIntensity = sphere.userData.glow * 2.5;
+                        sphere.material.roughness = 0.05 + (sphere.userData.glow * 0.3);
+                    } else {
+                        // Colored B-group spheres transition to Red transparent when called, and fade to base color when settled
+                        let baseColor, baseEmissive;
+                        if (num >= 1 && num <= 6) {
+                            baseColor = 0xa020f0; // Purple
+                            baseEmissive = 0x5000aa;
+                        } else if (num >= 22 && num <= 25) {
+                            baseColor = 0x00ff66; // Green
+                            baseEmissive = 0x00aa33;
+                        } else if (num >= 26 && num <= 31) {
+                            baseColor = 0x00aaff; // Blue
+                            baseEmissive = 0x0044aa;
+                        } else if (num >= 32 && num <= 34) {
+                            baseColor = 0xffaa00; // Orange
+                            baseEmissive = 0xaa5500;
+                        }
+
+                        let targetColor = isLatest ? new THREE.Color(0xff3333) : new THREE.Color(baseColor);
+                        let targetEmissive = isLatest ? new THREE.Color(0xff0000) : new THREE.Color(baseEmissive);
+                        
+                        sphere.material.color.lerp(targetColor, 0.08);
+                        sphere.material.emissive.lerp(targetEmissive, 0.08);
+                        sphere.material.emissiveIntensity = sphere.userData.glow * 2.5;
+                        sphere.material.roughness = 0.05 + (sphere.userData.glow * 0.3);
+                    }
                 } else {
                     // Standard clear glass transition to Gold
                     sphere.material.color.lerpColors(new THREE.Color(0xffffff), new THREE.Color(0xffd700), sphere.userData.glow);
@@ -1273,7 +1350,7 @@
                 const plane = data.planeMesh;
                 if (plane && plane.visible) {
                     const floatOffset = Math.sin(elapsedTime * 1.5 + data.excelPos[0] * 2) * 0.012;
-                    plane.position.y = (data.excelPos[2]) + floatOffset;
+                    plane.position.y = (data.excelPos[1]) + floatOffset;
 
                     if (billboardModeSelect.value === 'billboard') {
                         plane.quaternion.copy(camera.quaternion);
@@ -1295,4 +1372,3 @@
     </script>
 </body>
 </html>
-
