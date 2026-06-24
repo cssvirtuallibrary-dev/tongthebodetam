@@ -194,6 +194,25 @@
 
     <script>
         // =========================================================================
+        // Helper function for dynamic color assignment of B nodes
+        // =========================================================================
+        function getBNodeBaseColor(id) {
+            const num = parseInt(id.substring(1));
+            if (num >= 1 && num <= 6) {
+                return new THREE.Color(0xaa00ff); // Purple
+            } else if (num >= 7 && num <= 21) {
+                return new THREE.Color(0xffffff); // White
+            } else if (num >= 22 && num <= 25) {
+                return new THREE.Color(0x00aaff); // Blue
+            } else if (num >= 26 && num <= 31) {
+                return new THREE.Color(0x00ff66); // Green
+            } else if (num >= 32 && num <= 34) {
+                return new THREE.Color(0xff00ff); // Magenta
+            }
+            return new THREE.Color(0xffffff);
+        }
+
+        // =========================================================================
         // 1. DATA — names, chakras, filters & excelPos synced to LHBDT (Axis & Distance)
         //    Coordinate convention: excelPos = [X, Y-up, Z-depth]  (natural reading)
         //    Render mapping: threeX = excelPos[0], threeY = excelPos[1], threeZ = excelPos[2]
@@ -235,7 +254,7 @@
             { id: "B28", name: "Lower Right Palm", excelPos: [0.2, -0.1, -0.3], chakra: "N/A", image: "16_SA_Gold.png", char: "𑖭", phonetic: "Sa", series: "Lục Tý", dharma: "Sweet Dews", filter: "Tổng Thể Bồ Đề Tâm, Lục Tý", mantra: "Su Lu Su Lu\nOm, Su Lu Su Lu,\nBo La Su Lu, Bo La Su Lu,\nSu Lu Su Lu Ye,\nSo Po He" },
             { id: "B29", name: "Upper Open Left Palm", excelPos: [-0.5, 0.3, -0.5], chakra: "N/A", image: "08_BA_Gold.png", char: "𑖤", phonetic: "Ba", series: "Lục Tý", dharma: "Sun Essence Mani", filter: "Tổng Thể Bồ Đề Tâm, Lục Tý", mantra: "Shr Fo La Ye\nOm, Du Bi Jya Ye Du Bi,\nBo La Wa Li Ning\nSo Po He." },
             { id: "B30", name: "Upper Open Right Palm", excelPos: [0.5, 0.3, -0.5], chakra: "N/A", image: "09_DDA_Gold.png", char: "𑖚", phonetic: "Dda", series: "Lục Tý", dharma: "Moon Essence Mani", filter: "Tổng Thể Bồ Đề Tâm, Lục Tý", mantra: "Du Lu Du Lu\nOm, Su Syi Di Jya Li\nSo Po He" },
-            { id: "B31", name: "Meditation Mutra", excelPos: [0.0, -0.1, -0.3], chakra: "N/A", image: "42_DDHA_Gold.png", char: "𑖛", phonetic: "Ddha", series: "Lục Tý", dharma: "Thousand Hands &amp; Eyes", filter: "Tổng Thể Bồ Đề Tâm, Lục Tý", mantra: "Mo Pe Li Sheng Jye La Ye\nOm, Da Ni Ye To,\nWa Lu Jr Di,\nShr Wa La Ye,\nSa Pe Du Shai,\nJa Ming He Mi Ye,\nSo Po He" },
+            { id: "B31", name: "Meditation Mutra", excelPos: [0.0, -0.1, -0.3], chakra: "N/A", image: "42_DDHA_Gold.png", char: "𑖛", phonetic: "Ddha", series: "Lục Tý", dharma: "Thousand Hands & Eyes", filter: "Tổng Thể Bồ Đề Tâm, Lục Tý", mantra: "Mo Pe Li Sheng Jye La Ye\nOm, Da Ni Ye To,\nWa Lu Jr Di,\nShr Wa La Ye,\nSa Pe Du Shai,\nJa Ming He Mi Ye,\nSo Po He" },
 
             // --- Series: Ending ---
             { id: "B32", name: "Left Knee", excelPos: [-0.5, -0.3, -0.4], chakra: "N/A", image: "24_KHA_Gold.png", char: "𑖏", phonetic: "Kha", series: "Ending", dharma: "Jewel Staff", filter: "Tổng Thể Bồ Đề Tâm, Ending", mantra: "Mi Di Li Ye\nOm, No Li Ti No Li Ti\nNo Li Ja Bo Di\nNo Li Di No\nYe Bo Ning\nHum Pan Ja" },
@@ -460,7 +479,8 @@
             let mat;
             if (isGroupB) {
                 mat = new THREE.MeshPhysicalMaterial({
-                    color: 0x00ff66, roughness: 0.1, metalness: 0.1, transmission: 0.9,
+                    color: getBNodeBaseColor(data.id),
+                    roughness: 0.1, metalness: 0.1, transmission: 0.9,
                     ior: 1.52, thickness: 0.2, transparent: true, opacity: 1.0,
                     side: THREE.DoubleSide, depthWrite: false
                 });
@@ -655,7 +675,7 @@
                 sphere.userData.hasBeenCalled = false;
                 sphere.scale.setScalar(1.0);
                 if (sphere.userData.id.startsWith('B')) {
-                    sphere.material.color.setHex(0x00ff66);
+                    sphere.material.color.copy(getBNodeBaseColor(sphere.userData.id));
                     sphere.material.emissive.setHex(0x000000);
                 } else {
                     sphere.material.color.setHex(0xffffff);
@@ -692,7 +712,7 @@
                             sphere.userData.glow = 0.0;
                             sphere.userData.hasBeenCalled = false;
                             if (sphere.userData.planeMesh) sphere.userData.planeMesh.visible = false;
-                            sphere.material.color.setHex(0x00ff66);
+                            sphere.material.color.copy(getBNodeBaseColor(sphere.userData.id));
                             sphere.material.emissive.setHex(0x000000);
                         }
                     });
@@ -838,8 +858,10 @@
                 }
 
                 if (nodeData.id.startsWith('B')) {
-                    const targetColor = isLatest ? new THREE.Color(0xff3333) : new THREE.Color(0x00ff66);
-                    const targetEmissive = isLatest ? new THREE.Color(0xff0000) : new THREE.Color(0x00aa33);
+                    const baseColor = getBNodeBaseColor(nodeData.id);
+                    const targetColor = isLatest ? new THREE.Color(0xff3333) : baseColor;
+                    const targetEmissive = isLatest ? new THREE.Color(0xff0000) : baseColor.clone().multiplyScalar(0.5);
+
                     sphere.material.color.lerp(targetColor, 0.08);
                     sphere.material.emissive.lerp(targetEmissive, 0.08);
                     sphere.material.emissiveIntensity = sphere.userData.glow * 2.5;
