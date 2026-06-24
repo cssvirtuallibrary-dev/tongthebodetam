@@ -235,7 +235,7 @@
             { id: "B28", name: "Lower Right Palm", excelPos: [0.2, -0.1, -0.3], chakra: "N/A", image: "16_SA_Gold.png", char: "𑖭", phonetic: "Sa", series: "Lục Tý", dharma: "Sweet Dews", filter: "Tổng Thể Bồ Đề Tâm, Lục Tý", mantra: "Su Lu Su Lu\nOm, Su Lu Su Lu,\nBo La Su Lu, Bo La Su Lu,\nSu Lu Su Lu Ye,\nSo Po He" },
             { id: "B29", name: "Upper Open Left Palm", excelPos: [-0.5, 0.3, -0.5], chakra: "N/A", image: "08_BA_Gold.png", char: "𑖤", phonetic: "Ba", series: "Lục Tý", dharma: "Sun Essence Mani", filter: "Tổng Thể Bồ Đề Tâm, Lục Tý", mantra: "Shr Fo La Ye\nOm, Du Bi Jya Ye Du Bi,\nBo La Wa Li Ning\nSo Po He." },
             { id: "B30", name: "Upper Open Right Palm", excelPos: [0.5, 0.3, -0.5], chakra: "N/A", image: "09_DDA_Gold.png", char: "𑖚", phonetic: "Dda", series: "Lục Tý", dharma: "Moon Essence Mani", filter: "Tổng Thể Bồ Đề Tâm, Lục Tý", mantra: "Du Lu Du Lu\nOm, Su Syi Di Jya Li\nSo Po He" },
-            { id: "B31", name: "Meditation Mutra", excelPos: [0.0, -0.1, -0.3], chakra: "N/A", image: "42_DDHA_Gold.png", char: "𑖛", phonetic: "Ddha", series: "Lục Tý", dharma: "Thousand Hands & Eyes", filter: "Tổng Thể Bồ Đề Tâm, Lục Tý", mantra: "Mo Pe Li Sheng Jye La Ye\nOm, Da Ni Ye To,\nWa Lu Jr Di,\nShr Wa La Ye,\nSa Pe Du Shai,\nJa Ming He Mi Ye,\nSo Po He" },
+            { id: "B31", name: "Meditation Mutra", excelPos: [0.0, -0.1, -0.3], chakra: "N/A", image: "42_DDHA_Gold.png", char: "𑖛", phonetic: "Ddha", series: "Lục Tý", dharma: "Thousand Hands &amp; Eyes", filter: "Tổng Thể Bồ Đề Tâm, Lục Tý", mantra: "Mo Pe Li Sheng Jye La Ye\nOm, Da Ni Ye To,\nWa Lu Jr Di,\nShr Wa La Ye,\nSa Pe Du Shai,\nJa Ming He Mi Ye,\nSo Po He" },
 
             // --- Series: Ending ---
             { id: "B32", name: "Left Knee", excelPos: [-0.5, -0.3, -0.4], chakra: "N/A", image: "24_KHA_Gold.png", char: "𑖏", phonetic: "Kha", series: "Ending", dharma: "Jewel Staff", filter: "Tổng Thể Bồ Đề Tâm, Ending", mantra: "Mi Di Li Ye\nOm, No Li Ti No Li Ti\nNo Li Ja Bo Di\nNo Li Di No\nYe Bo Ning\nHum Pan Ja" },
@@ -531,11 +531,11 @@
 
                 let bPrevX, bPrevY, bPrevZ;
                 if (tPrev >= 4) { const p = getSpiralPosition(tPrev - 4); bPrevX = p.x; bPrevY = p.y; bPrevZ = p.z; }
-                else { bPrevX = pPrev.x; bPrevY = -1.4; bPrevZ = pPrev.z; }
+                else { bPrevX = pPrev.x; bPrevY = -0.4; bPrevZ = pPrev.z; } // Clamped bottom to first node Y level (-0.4) instead of -1.4
 
                 let bCurrX, bCurrY, bCurrZ;
                 if (tCurr >= 4) { const p = getSpiralPosition(tCurr - 4); bCurrX = p.x; bCurrY = p.y; bCurrZ = p.z; }
-                else { bCurrX = pCurr.x; bCurrY = -1.4; bCurrZ = pCurr.z; }
+                else { bCurrX = pCurr.x; bCurrY = -0.4; bCurrZ = pCurr.z; } // Clamped bottom to first node Y level (-0.4) instead of -1.4
 
                 const baseIndex = vertices.length / 3;
                 vertices.push(
@@ -555,12 +555,8 @@
         }
 
         // =========================================================================
-        // 9. Grid, axial laser beams & axis labels
+        // 9. Axial laser beams & axis labels
         // =========================================================================
-        const gridHelper = new THREE.GridHelper(10, 30, 0x00aaff, 0x141a24);
-        gridHelper.position.y = 0;
-        scene.add(gridHelper);
-
         function createAxialLaserBeam(direction) {
             const beamGroup = new THREE.Group();
             const totalLength = 2.3, coneHeight = 0.15;
@@ -910,4 +906,3 @@
     </script>
 </body>
 </html>
-
