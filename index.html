@@ -317,8 +317,12 @@
         scene.fog = new THREE.FogExp2(0x05070a, 0.03);
 
         const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
-        // Closer initial view, rotated ~20° to the left about Y (azimuth -45° -> -25°, radius ~7.07 -> ~5.0, height 5 -> 3.5)
-        camera.position.set(4.53, 3.5, -2.11);
+        
+        // Base initial view coordinates
+        const initialCameraPos = new THREE.Vector3(4.53, 3.5, -2.11);
+        // Rotate initial view vector 40 degrees to the right (counter-clockwise around Y-axis)
+        initialCameraPos.applyAxisAngle(new THREE.Vector3(0, 1, 0), 40 * Math.PI / 180);
+        camera.position.copy(initialCameraPos);
 
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, powerPreference: "high-performance" });
         renderer.setSize(window.innerWidth, window.innerHeight);
